@@ -27,7 +27,7 @@ def grafica_flujo_caja_poblacion(poblacion):
     plt.figure('FLUJO DE CAJA')
     for i in range(0, len(poblacion)):
         plt.plot(poblacion[i])
-    plt.title('Evolución del flujo de caja respecto a n')
+    plt.title('Evolución del flujo de caja respecto a n para una poblacion')
     #  plt.plot(fc, 'r-', label='Flujo de caja')
     plt.xlabel('Número de tiradas')
     plt.ylabel('Cantidad de capital')
