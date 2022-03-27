@@ -63,26 +63,50 @@ def martingala():
     color_apostado = "R"
     i = 0
     favorables = 0
+    cont_tiradas = 1000 #puede ser mucho mayor. Contador de tiradas para captal infinito
 
-    while capital >= monto_apuesta:
-        tiro = randint(0, 36)
-        if (ruleta[tiro] == color_apostado):
-            capital += monto_apuesta
-            monto_apuesta = MONTO_APUESTA_INICIAL
-            favorables += 1
-        else:
-            capital -= monto_apuesta
-            monto_apuesta *= 2
+    if (CAPITAL_INFINITO == 'N'):
+        while capital >= monto_apuesta:
+            tiro = randint(0, 36)
+            if (ruleta[tiro] == color_apostado):
+                capital += monto_apuesta
+                monto_apuesta = MONTO_APUESTA_INICIAL
+                favorables += 1
+            else:
+                capital -= monto_apuesta
+                monto_apuesta *= 2
 
-        i += 1
+            i += 1
 
-        frecuencia.append(favorables / i)
-        flujo_caja.append(capital)
+            frecuencia.append(favorables / i)
+            flujo_caja.append(capital)
 
-    print(frecuencia)
-    grafica_flujo_caja(flujo_caja)
-    grafica_frecuencia(frecuencia)
-    grafica_torta(favorables, i)
+        print(frecuencia)
+        grafica_flujo_caja(flujo_caja)
+        grafica_frecuencia(frecuencia)
+        grafica_torta(favorables, i)
+    else: #PARA CAPITAL INFINITO
+        for x in range(0, cont_tiradas):
+            tiro = randint(0, 36)
+            if (ruleta[tiro] == color_apostado):
+                capital += monto_apuesta
+                monto_apuesta = MONTO_APUESTA_INICIAL
+                favorables += 1
+            else:
+                capital -= monto_apuesta
+                monto_apuesta *= 2
+
+            i += 1
+
+            frecuencia.append(favorables / i)
+            flujo_caja.append(capital)
+        grafica_flujo_caja(flujo_caja)
+        grafica_frecuencia(frecuencia)
+        grafica_torta(favorables, i)
+
+
+
+
 
 def martingala_poblacion():
     flujo_caja = []
@@ -95,7 +119,7 @@ def martingala_poblacion():
     color_apostado = "R"
     i = 0
     favorables = 0
-    for i in range (0,100):
+    for i in range(0, 100):
         while capital >= monto_apuesta:
             tiro = randint(0, 36)
             if (ruleta[tiro] == color_apostado):
@@ -119,7 +143,7 @@ def martingala_poblacion():
         i = 0
         favorables = 0
     grafica_flujo_caja_poblacion(poblacion)
-    
+
 
 def fibonacci():
     flujo_caja = []
@@ -132,27 +156,48 @@ def fibonacci():
     i = 0
     favorables = 0
     monto_prev = 0
+    cont_tiradas = 1000   # Puede ser mucho mayor. Contador de tiras para capital infinito
 
-    while capital >= monto_apuesta:
-        tiro = randint(0, 36)
-        if (ruleta[tiro] == color_apostado):
-            capital += monto_apuesta
-            monto_apuesta = MONTO_APUESTA_INICIAL
-            favorables += 1
-        else:
-            capital -= monto_apuesta
-            monto_apuesta += monto_prev
-            monto_prev = monto_apuesta
+    if (CAPITAL_INFINITO =='N'):
+        while capital >= monto_apuesta:
+            tiro = randint(0, 36)
+            if (ruleta[tiro] == color_apostado):
+                capital += monto_apuesta
+                monto_apuesta = MONTO_APUESTA_INICIAL
+                favorables += 1
+            else:
+                capital -= monto_apuesta
+                monto_apuesta += monto_prev
+                monto_prev = monto_apuesta
 
-        i += 1
+            i += 1
 
-        frecuencia.append(favorables / i)
-        flujo_caja.append(capital)
+            frecuencia.append(favorables / i)
+            flujo_caja.append(capital)
+        grafica_flujo_caja(flujo_caja)
+        grafica_frecuencia(frecuencia)
+        grafica_torta(favorables, i)
+    else: #PARA CAPITAL INFINITO
+        for x in range(0, cont_tiradas):
+            tiro = randint(0, 36)
+            if (ruleta[tiro] == color_apostado):
+                capital += monto_apuesta
+                monto_apuesta = MONTO_APUESTA_INICIAL
+                favorables += 1
+            else:
+                capital -= monto_apuesta
+                monto_apuesta += monto_prev
+                monto_prev = monto_apuesta
 
+            i += 1
 
-    grafica_flujo_caja(flujo_caja)
-    grafica_frecuencia(frecuencia)
-    grafica_torta(favorables, i)
+            frecuencia.append(favorables / i)
+            flujo_caja.append(capital)
+
+        grafica_flujo_caja(flujo_caja)
+        grafica_frecuencia(frecuencia)
+        grafica_torta(favorables, i)
+
 
 def fibonacci_poblacion():
     flujo_caja = []
@@ -196,7 +241,8 @@ def fibonacci_poblacion():
 
 
 system("cls")
+CAPITAL_INFINITO = 'S' # 'S' es para capital infinito. 'N' con capital limitado
 fibonacci()
-fibonacci_poblacion()
-martingala()
-martingala_poblacion()
+#fibonacci_poblacion()
+#martingala()
+#martingala_poblacion()
