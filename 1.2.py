@@ -84,6 +84,42 @@ def martingala():
     grafica_frecuencia(frecuencia)
     grafica_torta(favorables, i)
 
+def martingala_poblacion():
+    flujo_caja = []
+    frecuencia = []
+    poblacion = []
+    global CAPITAL_INICIAL
+    global MONTO_APUESTA_INICIAL
+    capital = CAPITAL_INICIAL
+    monto_apuesta = MONTO_APUESTA_INICIAL
+    color_apostado = "R"
+    i = 0
+    favorables = 0
+    for i in range (0,100):
+        while capital >= monto_apuesta:
+            tiro = randint(0, 36)
+            if (ruleta[tiro] == color_apostado):
+                capital += monto_apuesta
+                monto_apuesta = MONTO_APUESTA_INICIAL
+                favorables += 1
+            else:
+                capital -= monto_apuesta
+                monto_apuesta *= 2
+
+            i += 1
+
+            frecuencia.append(favorables / i)
+            flujo_caja.append(capital)
+        poblacion.append(flujo_caja)
+        flujo_caja = []
+        frecuencia = []
+        capital = CAPITAL_INICIAL
+        monto_apuesta = MONTO_APUESTA_INICIAL
+        color_apostado = "R"
+        i = 0
+        favorables = 0
+    grafica_flujo_caja_poblacion(poblacion)
+    
 
 def fibonacci():
     flujo_caja = []
@@ -163,3 +199,4 @@ system("cls")
 fibonacci()
 fibonacci_poblacion()
 martingala()
+martingala_poblacion()
