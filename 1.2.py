@@ -2,7 +2,29 @@ import matplotlib.pyplot as plt
 from os import system
 from random import randint
 
-ruleta = {
+class num_ruleta:
+    def __init__(self, numero, color, fila, columna):
+        
+        self.num=numero
+        self.color=color
+        self.fila=fila
+        self.columna=columna
+        
+        pass
+pass
+class ruleta:
+    global numeros
+    def __init__(self):
+       
+       
+        N0=num_ruleta(0,"v",0,0)
+        numeros.append(N0)
+        N1=num_ruleta(1,"R",1,1)
+        N2=num_ruleta(2,"N",1,2)
+        pass
+r1=ruleta()
+print (r1.numeros[0])
+aruleta = {
     0: "V", 1: "R", 2: "N", 3: "R", 4: "N", 5: "R", 6: "N", 7: "R", 8: "N", 9: "R", 10: "N", 11: "N", 12: "R", 13: "N",
     14: "R", 15: "N", 16: "R", 17: "N", 18: "R", 19: "R", 20: "N", 21: "R", 22: "N", 23: "R", 24: "N", 25: "R", 26: "N",
     27: "R", 28: "N", 29: "N", 30: "R", 31: "N", 32: "R", 33: "N", 34: "R", 35: "N", 36: "R"
