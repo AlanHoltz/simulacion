@@ -118,13 +118,6 @@ class ruleta:
         n=self.tirada
         return n
         
-    def escribe(self):
-       lis=self.numeros
-       for x in lis:
-           
-           print(str(x.num)+" "+ x.color)
-       pass
-    
 pass
 
 
@@ -288,31 +281,30 @@ def fibonacci():
     global CAPITAL_INICIAL
     global MONTO_APUESTA_INICIAL
     capital = CAPITAL_INICIAL
-    monto_apuesta = MONTO_APUESTA_INICIAL
+  
     color_apostado = "R"
     i = 0
     favorables = 0
-    monto_prev = 0
+   
     cont_tiradas = 50   # Puede ser mucho mayor. Contador de tiras para capital infinito
-    apuesta_minima = 10
-    n = 3
+  
+    n = 1
     secuencia_fibonacci()
-
+    monto_apuesta=secuencia[n]*10
     if (CAPITAL_INFINITO =='N'):
-
-        while capital >= monto_apuesta:
-            capital-=monto_apuesta            
+        while capital >= monto_apuesta:            
+            monto_apuesta = secuencia[n]*10
+            capital-=monto_apuesta                        
             premio=rulet.apuesta(monto_apuesta, color_apostado)
             if (premio!=0):
                 capital += premio
-                monto_apuesta = MONTO_APUESTA_INICIAL
-                favorables += 1
-                n+=1
+                if n>=3:
+                    n-=2
+                else: 
+                    n=1                    
+                favorables += 1                
             else:
-                
-                monto_apuesta += monto_prev
-                monto_prev = monto_apuesta
-
+                n+=1               
             i += 1
             frecuencia.append(favorables / i)
             flujo_caja.append(capital)
@@ -320,18 +312,23 @@ def fibonacci():
         grafica_frecuencia(frecuencia)
         grafica_torta(favorables, i)
     else: #PARA CAPITAL INFINITO
+        n=1
         for x in range(0, cont_tiradas):
+            monto_apuesta=secuencia[n]*10
             capital-=monto_apuesta            
             premio=rulet.apuesta(monto_apuesta, color_apostado)
             if (premio!=0):
                 capital += premio
-                monto_apuesta = MONTO_APUESTA_INICIAL
-                favorables += 1
-                n+=1
-            else:
+                if n>=2:
+                    n-=2
+                else: 
+                    n=0    
                 
-                monto_apuesta += monto_prev
-                monto_prev = monto_apuesta
+                favorables += 1
+                
+            else:
+                n+=1              
+        
 
             i += 1
             frecuencia.append(favorables / i)
@@ -340,7 +337,6 @@ def fibonacci():
         grafica_flujo_caja(flujo_caja)
         grafica_frecuencia(frecuencia)
         grafica_torta(favorables, i)
-
 
 def fibonacci_poblacion():
     flujo_caja = []
@@ -353,35 +349,36 @@ def fibonacci_poblacion():
     monto_apuesta = MONTO_APUESTA_INICIAL
     color_apostado = "R"
     i = 0
-    n = 3
+    n = 1
     secuencia_fibonacci()
     favorables = 0
-    monto_prev = 0
+    
     for i in range(0, 100):
         while capital >= monto_apuesta:
-            capital-=monto_apuesta            
-            premio=rulet.apuesta(monto_apuesta, color_apostado)
-            if (premio!=0):
+             capital-=monto_apuesta                        
+             premio=rulet.apuesta(monto_apuesta, color_apostado)
+             if (premio!=0):
                 capital += premio
-                monto_apuesta = MONTO_APUESTA_INICIAL
-                favorables += 1
-                n += 1
-            else:
+                if n>=3:
+                    n-=2
+                else: 
+                    n=1    
                 
-                monto_apuesta += monto_prev
-                monto_prev = monto_apuesta
-
-            i += 1
-            frecuencia.append(favorables / i)
-            flujo_caja.append(capital)
+                favorables += 1
+                
+             else:
+                n+=1
+             i+= 1
+             frecuencia.append(favorables / i)
+             flujo_caja.append(capital)
 
         poblacion.append(flujo_caja)
         flujo_caja = []
         capital = CAPITAL_INICIAL
-        monto_apuesta = MONTO_APUESTA_INICIAL
+        monto_apuesta = secuencia[1]
         color_apostado = "R"
         favorables = 0
-        monto_prev = 0
+        
 
     grafica_flujo_caja_poblacion(poblacion)
 
