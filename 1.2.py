@@ -10,6 +10,7 @@ ruleta = {
 
 CAPITAL_INICIAL = 1000
 MONTO_APUESTA_INICIAL = 100
+secuencia = []
 
 
 def grafica_flujo_caja(fc):
@@ -21,6 +22,8 @@ def grafica_flujo_caja(fc):
     plt.axhline(CAPITAL_INICIAL, label='Flujo de caja inicial')
     plt.legend()
     plt.show()
+
+
 
 
 def grafica_flujo_caja_poblacion(poblacion):
@@ -144,6 +147,17 @@ def martingala_poblacion():
         favorables = 0
     grafica_flujo_caja_poblacion(poblacion)
 
+def secuencia_fibonacci():
+    global secuencia
+    first = 0
+    second = 1
+    sum = 0
+    secuencia.append(0)
+    for i in range(0, 100):
+        first = second
+        second = sum
+        sum = first + second
+        secuencia.append(sum)
 
 def fibonacci():
     flujo_caja = []
@@ -156,22 +170,25 @@ def fibonacci():
     i = 0
     favorables = 0
     monto_prev = 0
-    cont_tiradas = 1000   # Puede ser mucho mayor. Contador de tiras para capital infinito
+    cont_tiradas = 50   # Puede ser mucho mayor. Contador de tiras para capital infinito
+    apuesta_minima = 10
+    n = 3
+    secuencia_fibonacci()
 
     if (CAPITAL_INFINITO =='N'):
+
         while capital >= monto_apuesta:
             tiro = randint(0, 36)
             if (ruleta[tiro] == color_apostado):
-                capital += monto_apuesta
-                monto_apuesta = MONTO_APUESTA_INICIAL
+                capital += secuencia[n-2]
+                monto_apuesta += secuencia[n-2]
                 favorables += 1
+                n+=1
             else:
+                monto_apuesta += secuencia[n+1]
                 capital -= monto_apuesta
-                monto_apuesta += monto_prev
-                monto_prev = monto_apuesta
-
+                n+=1
             i += 1
-
             frecuencia.append(favorables / i)
             flujo_caja.append(capital)
         grafica_flujo_caja(flujo_caja)
@@ -181,16 +198,15 @@ def fibonacci():
         for x in range(0, cont_tiradas):
             tiro = randint(0, 36)
             if (ruleta[tiro] == color_apostado):
-                capital += monto_apuesta
-                monto_apuesta = MONTO_APUESTA_INICIAL
+                capital += secuencia[n-2]
+                monto_apuesta += secuencia[n-2]
                 favorables += 1
+                n+=1
             else:
+                monto_apuesta += secuencia[n+1]
                 capital -= monto_apuesta
-                monto_apuesta += monto_prev
-                monto_prev = monto_apuesta
-
+                n+=1
             i += 1
-
             frecuencia.append(favorables / i)
             flujo_caja.append(capital)
 
@@ -210,22 +226,23 @@ def fibonacci_poblacion():
     monto_apuesta = MONTO_APUESTA_INICIAL
     color_apostado = "R"
     i = 0
-
+    n = 3
+    secuencia_fibonacci()
     favorables = 0
     monto_prev = 0
     for i in range(0, 100):
         while capital >= monto_apuesta:
             tiro = randint(0, 36)
             if (ruleta[tiro] == color_apostado):
-                capital += monto_apuesta
-                monto_apuesta = MONTO_APUESTA_INICIAL
+                capital += secuencia[n - 2]
+                monto_apuesta += secuencia[n - 2]
                 favorables += 1
+                n += 1
             else:
+                monto_apuesta += secuencia[n + 1]
                 capital -= monto_apuesta
-                monto_apuesta += monto_prev
-                monto_prev = monto_apuesta
+                n += 1
             i += 1
-
             frecuencia.append(favorables / i)
             flujo_caja.append(capital)
 
@@ -241,7 +258,7 @@ def fibonacci_poblacion():
 
 
 system("cls")
-CAPITAL_INFINITO = 'S' # 'S' es para capital infinito. 'N' con capital limitado
+CAPITAL_INFINITO = 'N' # 'S' es para capital infinito. 'N' con capital limitado
 fibonacci()
 #fibonacci_poblacion()
 #martingala()
