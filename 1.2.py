@@ -101,7 +101,7 @@ class ruleta:
 
     def apuesta(self, apostado, apuesta):
         n=self.untiro()
-        ganador=numeros[n]
+        ganador=self.numeros[n]
         premio=0
         if apuesta == str(ganador.num):
             premio= apostado*36
@@ -137,7 +137,7 @@ aruleta = {
 }
 
 CAPITAL_INICIAL = 1000
-MONTO_APUESTA_INICIAL = 100
+MONTO_APUESTA_INICIAL = 10
 
 
 def grafica_flujo_caja(fc):
@@ -149,7 +149,6 @@ def grafica_flujo_caja(fc):
     plt.axhline(CAPITAL_INICIAL, label='Flujo de caja inicial')
     plt.legend()
     plt.show()
-
 
 def grafica_flujo_caja_poblacion(poblacion):
     plt.figure('FLUJO DE CAJA')
@@ -164,7 +163,6 @@ def grafica_flujo_caja_poblacion(poblacion):
     plt.grid()
     plt.show()
 
-
 def grafica_frecuencia(fr):
     plt.figure('FRECUENCIA')
     plt.title('Evolución de la frecuencia relativa de la obtencion la respuesta favorable respecto a n')
@@ -172,7 +170,6 @@ def grafica_frecuencia(fr):
     plt.xlabel('Número de tiradas')
     plt.ylabel('Frecuencia relativa')
     plt.show()
-
 
 def grafica_torta(rojo, total):
     plt.figure('COLOR')
@@ -196,14 +193,15 @@ def martingala():
 
     if (CAPITAL_INFINITO == 'N'):
         while capital >= monto_apuesta:
-            rulet.untiro()
-            tiro = rulet.tirada()
-            if (ruleta[tiro] == color_apostado):
-                capital += monto_apuesta
+            
+            capital-=monto_apuesta
+            
+            premio=rulet.apuesta(monto_apuesta, color_apostado)
+            if (premio!=0):
+                capital += premio
                 monto_apuesta = MONTO_APUESTA_INICIAL
                 favorables += 1
             else:
-                capital -= monto_apuesta
                 monto_apuesta *= 2
 
             i += 1
@@ -217,13 +215,15 @@ def martingala():
         grafica_torta(favorables, i)
     else: #PARA CAPITAL INFINITO
         for x in range(0, cont_tiradas):
-            tiro = randint(0, 36)
-            if (ruleta[tiro] == color_apostado):
-                capital += monto_apuesta
+            
+            premio=rulet.apuesta(monto_apuesta, color_apostado)
+            capital -= monto_apuesta
+            if (premio!=0):
+                capital += premio
                 monto_apuesta = MONTO_APUESTA_INICIAL
                 favorables += 1
             else:
-                capital -= monto_apuesta
+                
                 monto_apuesta *= 2
 
             i += 1
@@ -239,6 +239,7 @@ def martingala():
 
 
 def martingala_poblacion():
+    rulet=ruleta()
     flujo_caja = []
     frecuencia = []
     poblacion = []
@@ -251,13 +252,14 @@ def martingala_poblacion():
     favorables = 0
     for i in range(0, 100):
         while capital >= monto_apuesta:
-            tiro = randint(0, 36)
-            if (ruleta[tiro] == color_apostado):
-                capital += monto_apuesta
+            
+            capital-=monto_apuesta            
+            premio=rulet.apuesta(monto_apuesta, color_apostado)
+            if (premio!=0):
+                capital += premio
                 monto_apuesta = MONTO_APUESTA_INICIAL
                 favorables += 1
             else:
-                capital -= monto_apuesta
                 monto_apuesta *= 2
 
             i += 1
@@ -276,6 +278,7 @@ def martingala_poblacion():
 
 
 def fibonacci():
+    rulet=ruleta()
     flujo_caja = []
     frecuencia = []
     global CAPITAL_INICIAL
@@ -290,13 +293,14 @@ def fibonacci():
 
     if (CAPITAL_INFINITO =='N'):
         while capital >= monto_apuesta:
-            tiro = randint(0, 36)
-            if (ruleta[tiro] == color_apostado):
-                capital += monto_apuesta
+            capital-=monto_apuesta            
+            premio=rulet.apuesta(monto_apuesta, color_apostado)
+            if (premio!=0):
+                capital += premio
                 monto_apuesta = MONTO_APUESTA_INICIAL
                 favorables += 1
             else:
-                capital -= monto_apuesta
+                
                 monto_apuesta += monto_prev
                 monto_prev = monto_apuesta
 
@@ -309,13 +313,14 @@ def fibonacci():
         grafica_torta(favorables, i)
     else: #PARA CAPITAL INFINITO
         for x in range(0, cont_tiradas):
-            tiro = randint(0, 36)
-            if (ruleta[tiro] == color_apostado):
-                capital += monto_apuesta
+            capital-=monto_apuesta            
+            premio=rulet.apuesta(monto_apuesta, color_apostado)
+            if (premio!=0):
+                capital += premio
                 monto_apuesta = MONTO_APUESTA_INICIAL
                 favorables += 1
             else:
-                capital -= monto_apuesta
+                
                 monto_apuesta += monto_prev
                 monto_prev = monto_apuesta
 
@@ -333,7 +338,7 @@ def fibonacci_poblacion():
     flujo_caja = []
     frecuencia = []
     poblacion = []
-
+    rulet=ruleta()
     global CAPITAL_INICIAL
     global MONTO_APUESTA_INICIAL
     capital = CAPITAL_INICIAL
@@ -345,15 +350,17 @@ def fibonacci_poblacion():
     monto_prev = 0
     for i in range(0, 100):
         while capital >= monto_apuesta:
-            tiro = randint(0, 36)
-            if (ruleta[tiro] == color_apostado):
-                capital += monto_apuesta
+            capital-=monto_apuesta            
+            premio=rulet.apuesta(monto_apuesta, color_apostado)
+            if (premio!=0):
+                capital += premio
                 monto_apuesta = MONTO_APUESTA_INICIAL
                 favorables += 1
             else:
-                capital -= monto_apuesta
+                
                 monto_apuesta += monto_prev
                 monto_prev = monto_apuesta
+
             i += 1
 
             frecuencia.append(favorables / i)
@@ -371,7 +378,7 @@ def fibonacci_poblacion():
 
 
 system("cls")
-CAPITAL_INFINITO = 'S' # 'S' es para capital infinito. 'N' con capital limitado
+CAPITAL_INFINITO = 'N' # 'S' es para capital infinito. 'N' con capital limitado
 fibonacci()
 #fibonacci_poblacion()
 #martingala()
