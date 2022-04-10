@@ -1,130 +1,145 @@
 import matplotlib.pyplot as plt
 from os import system
 from random import randint
-r1=""
+
+r1 = ""
+
+
 class num_ruleta:
     def __init__(self, numero, color, fila, columna):
-        
-        self.num=numero
-        self.color=color
-        self.fila=fila
-        self.columna=columna
-        
+        self.num = numero
+        self.color = color
+        self.fila = fila
+        self.columna = columna
+
         pass
+
+
 pass
+
 
 class ruleta:
     global numeros
     global pago
     global tirada
+
     def __init__(self):
-        num=[]
-        
-        N0=num_ruleta(0,"v",0,0)
+        num = []
+
+        N0 = num_ruleta(0, "v", 0, 0)
         num.append(N0)
-        N1=num_ruleta(1,"R",1,1)
+        N1 = num_ruleta(1, "R", 1, 1)
         num.append(N1)
-        N2=num_ruleta(2,"N",1,2)
+        N2 = num_ruleta(2, "N", 1, 2)
         num.append(N2)
-        N3=num_ruleta(3,"R",1,3)
+        N3 = num_ruleta(3, "R", 1, 3)
         num.append(N3)
-        N4=num_ruleta(4,"R",2,1)
+        N4 = num_ruleta(4, "R", 2, 1)
         num.append(N4)
-        N5=num_ruleta(5,"N",2,2)
+        N5 = num_ruleta(5, "N", 2, 2)
         num.append(N5)
-        N6=num_ruleta(6,"R",2,3)
+        N6 = num_ruleta(6, "R", 2, 3)
         num.append(N6)
-        N7=num_ruleta(7,"R",3,1)
+        N7 = num_ruleta(7, "R", 3, 1)
         num.append(N7)
-        N8=num_ruleta(8,"N",3,2)
+        N8 = num_ruleta(8, "N", 3, 2)
         num.append(N8)
-        N9=num_ruleta(9,"R",3,3)
+        N9 = num_ruleta(9, "R", 3, 3)
         num.append(N9)
-        N10=num_ruleta(10,"N",4,1)
+        N10 = num_ruleta(10, "N", 4, 1)
         num.append(N10)
-        N11=num_ruleta(11,"N",4,2)
+        N11 = num_ruleta(11, "N", 4, 2)
         num.append(N11)
-        N12=num_ruleta(12,"R",4,3)
+        N12 = num_ruleta(12, "R", 4, 3)
         num.append(N12)
-        N13=num_ruleta(13,"N",5,1)
+        N13 = num_ruleta(13, "N", 5, 1)
         num.append(N13)
-        N14=num_ruleta(14,"R",5,2)
+        N14 = num_ruleta(14, "R", 5, 2)
         num.append(N14)
-        N15=num_ruleta(15,"N",5,3)
+        N15 = num_ruleta(15, "N", 5, 3)
         num.append(N15)
-        N16=num_ruleta(16,"R",6,1)
+        N16 = num_ruleta(16, "R", 6, 1)
         num.append(N16)
-        N17=num_ruleta(17,"N",6,2)
+        N17 = num_ruleta(17, "N", 6, 2)
         num.append(N17)
-        N18=num_ruleta(18,"R",6,3)
+        N18 = num_ruleta(18, "R", 6, 3)
         num.append(N18)
-        N19=num_ruleta(19,"R",7,1)
+        N19 = num_ruleta(19, "R", 7, 1)
         num.append(N19)
-        N20=num_ruleta(20,"N",7,2)
+        N20 = num_ruleta(20, "N", 7, 2)
         num.append(N20)
-        N21=num_ruleta(21,"R",7,3)
+        N21 = num_ruleta(21, "R", 7, 3)
         num.append(N21)
-        N22=num_ruleta(22,"N",8,1)
+        N22 = num_ruleta(22, "N", 8, 1)
         num.append(N22)
-        N23=num_ruleta(23,"R",8,2)
+        N23 = num_ruleta(23, "R", 8, 2)
         num.append(N23)
-        N24=num_ruleta(24,"N",8,3)
+        N24 = num_ruleta(24, "N", 8, 3)
         num.append(N24)
-        N25=num_ruleta(25,"R",9,1)
+        N25 = num_ruleta(25, "R", 9, 1)
         num.append(N25)
-        N26=num_ruleta(26,"N",9,2)
+        N26 = num_ruleta(26, "N", 9, 2)
         num.append(N26)
-        N27=num_ruleta(27,"R",9,3)
+        N27 = num_ruleta(27, "R", 9, 3)
         num.append(N27)
-        N28=num_ruleta(28,"N",10,1)
+        N28 = num_ruleta(28, "N", 10, 1)
         num.append(N28)
-        N29=num_ruleta(29,"N",10,2)
+        N29 = num_ruleta(29, "N", 10, 2)
         num.append(N29)
-        N30=num_ruleta(30,"R",10,3)
+        N30 = num_ruleta(30, "R", 10, 3)
         num.append(N30)
-        N31=num_ruleta(31,"N",11,1)
+        N31 = num_ruleta(31, "N", 11, 1)
         num.append(N31)
-        N32=num_ruleta(32,"R",11,2)
+        N32 = num_ruleta(32, "R", 11, 2)
         num.append(N32)
-        N33=num_ruleta(33,"N",11,3)
+        N33 = num_ruleta(33, "N", 11, 3)
         num.append(N33)
-        N34=num_ruleta(34,"R",12,1)
+        N34 = num_ruleta(34, "R", 12, 1)
         num.append(N34)
-        N35=num_ruleta(35,"N",12,2)
+        N35 = num_ruleta(35, "N", 12, 2)
         num.append(N35)
-        N36=num_ruleta(36,"R",12,3)
+        N36 = num_ruleta(36, "R", 12, 3)
         num.append(N36)
-       
-        
-        self.numeros=num
+
+        self.numeros = num
+
     pass
 
     def apuesta(self, apostado, apuesta):
-        n=self.untiro()
-        ganador=self.numeros[n]
-        premio=0
+        global negro
+        global verde
+        n = self.untiro()
+        ganador = self.numeros[n]
+        premio = 0
         if apuesta == str(ganador.num):
-            premio= apostado*36
-        elif apuesta== ganador.color:
-            premio=apostado*2
-        elif apuesta==str(ganador.fila):
-            premio=apostado*12
-        elif apuesta==str(ganador.columna):
-            premio=apostado*3    
+            premio = apostado * 36
+        elif apuesta == ganador.color:
+            premio = apostado * 2
+        elif apuesta == str(ganador.fila):
+            premio = apostado * 12
+        elif apuesta == str(ganador.columna):
+            premio = apostado * 3
+        if (ganador.color == 'N'):
+            negro +=1
+        else:
+            verde+=1
         return premio
-    pass
-    def untiro(self):
-        self.tirada=randint(0,36)
-        n=self.tirada
-        return n
-        
-pass
 
+    pass
+
+    def untiro(self):
+        self.tirada = randint(0, 36)
+        n = self.tirada
+        return n
+
+
+pass
 
 CAPITAL_INICIAL = 1000
 MONTO_APUESTA_INICIAL = 100
 secuencia = []
-
+negro = 0
+verde = 0
 
 def grafica_flujo_caja(fc):
     plt.figure('FLUJO DE CAJA')
@@ -135,6 +150,7 @@ def grafica_flujo_caja(fc):
     plt.axhline(CAPITAL_INICIAL, label='Flujo de caja inicial')
     plt.legend()
     plt.show()
+
 
 def grafica_flujo_caja_poblacion(poblacion):
     plt.figure('FLUJO DE CAJA')
@@ -149,6 +165,7 @@ def grafica_flujo_caja_poblacion(poblacion):
     plt.grid()
     plt.show()
 
+
 def grafica_frecuencia(fr):
     plt.figure('FRECUENCIA')
     plt.title('Evolución de la frecuencia relativa de la obtencion la respuesta favorable respecto a n')
@@ -157,33 +174,36 @@ def grafica_frecuencia(fr):
     plt.ylabel('Frecuencia relativa')
     plt.show()
 
-def grafica_torta(rojo, total):
+
+def grafica_torta(rojo, negro, verde ):
     plt.figure('COLOR')
     plt.title('Distribucion del color de los valores obtenidos en la ruleta en n tiros')
-    plt.pie(x=[rojo, total - rojo], colors=['red', 'grey'], labels=["ROJO", "NEGRO"], autopct='%1.2f%%')
+    plt.pie(x=[rojo,negro, verde], colors=['red', 'grey','green'], labels=["ROJO", "NEGRO", "VERDE"], autopct='%1.2f%%')
     plt.show()
 
 
 def martingala():
-    rulet=ruleta()
+    rulet = ruleta()
     flujo_caja = []
     frecuencia = []
     global CAPITAL_INICIAL
     global MONTO_APUESTA_INICIAL
+    global verde
+    global negro
     capital = CAPITAL_INICIAL
     monto_apuesta = MONTO_APUESTA_INICIAL
     color_apostado = "R"
     i = 0
     favorables = 0
-    cont_tiradas = 1000 #puede ser mucho mayor. Contador de tiradas para captal infinito
+    cont_tiradas = 1000  #Contador limite de tiradas para captal infinito
 
     if (CAPITAL_INFINITO == 'N'):
         while capital >= monto_apuesta:
-            
-            capital-=monto_apuesta
-            
-            premio=rulet.apuesta(monto_apuesta, color_apostado)
-            if (premio!=0):
+
+            capital -= monto_apuesta
+
+            premio = rulet.apuesta(monto_apuesta, color_apostado)
+            if (premio != 0):
                 capital += premio
                 monto_apuesta = MONTO_APUESTA_INICIAL
                 favorables += 1
@@ -198,18 +218,18 @@ def martingala():
         print(frecuencia)
         grafica_flujo_caja(flujo_caja)
         grafica_frecuencia(frecuencia)
-        grafica_torta(favorables, i)
-    else: #PARA CAPITAL INFINITO
+        grafica_torta(favorables, negro, verde)
+    else:  # PARA CAPITAL INFINITO
         for x in range(0, cont_tiradas):
-            
-            premio=rulet.apuesta(monto_apuesta, color_apostado)
+
+            premio = rulet.apuesta(monto_apuesta, color_apostado)
             capital -= monto_apuesta
-            if (premio!=0):
+            if (premio != 0):
                 capital += premio
                 monto_apuesta = MONTO_APUESTA_INICIAL
                 favorables += 1
             else:
-                
+
                 monto_apuesta *= 2
 
             i += 1
@@ -218,14 +238,11 @@ def martingala():
             flujo_caja.append(capital)
         grafica_flujo_caja(flujo_caja)
         grafica_frecuencia(frecuencia)
-        grafica_torta(favorables, i)
-
-
-
+        grafica_torta(favorables, negro, verde)
 
 
 def martingala_poblacion():
-    rulet=ruleta()
+    rulet = ruleta()
     flujo_caja = []
     frecuencia = []
     poblacion = []
@@ -238,10 +255,10 @@ def martingala_poblacion():
     favorables = 0
     for i in range(0, 100):
         while capital >= monto_apuesta:
-            
-            capital-=monto_apuesta            
-            premio=rulet.apuesta(monto_apuesta, color_apostado)
-            if (premio!=0):
+
+            capital -= monto_apuesta
+            premio = rulet.apuesta(monto_apuesta, color_apostado)
+            if (premio != 0):
                 capital += premio
                 monto_apuesta = MONTO_APUESTA_INICIAL
                 favorables += 1
@@ -262,6 +279,7 @@ def martingala_poblacion():
         favorables = 0
     grafica_flujo_caja_poblacion(poblacion)
 
+
 def secuencia_fibonacci():
     global secuencia
     first = 0
@@ -274,61 +292,61 @@ def secuencia_fibonacci():
         sum = first + second
         secuencia.append(sum)
 
+
 def fibonacci():
-    rulet=ruleta()
+    rulet = ruleta()
     flujo_caja = []
     frecuencia = []
     global CAPITAL_INICIAL
     global MONTO_APUESTA_INICIAL
     capital = CAPITAL_INICIAL
-  
+
     color_apostado = "R"
     i = 0
     favorables = 0
-   
-    cont_tiradas = 50   # Puede ser mucho mayor. Contador de tiras para capital infinito
-  
+
+    cont_tiradas = 50  # Puede ser mucho mayor. Contador de tiras para capital infinito
+
     n = 1
     secuencia_fibonacci()
-    monto_apuesta=secuencia[n]*10
-    if (CAPITAL_INFINITO =='N'):
-        while capital >= monto_apuesta:            
-            monto_apuesta = secuencia[n]*10
-            capital-=monto_apuesta                        
-            premio=rulet.apuesta(monto_apuesta, color_apostado)
-            if (premio!=0):
+    monto_apuesta = secuencia[n] * 10
+    if (CAPITAL_INFINITO == 'N'):
+        while capital >= monto_apuesta:
+            monto_apuesta = secuencia[n] * 10
+            capital -= monto_apuesta
+            premio = rulet.apuesta(monto_apuesta, color_apostado)
+            if (premio != 0):
                 capital += premio
-                if n>=3:
-                    n-=2
-                else: 
-                    n=1                    
-                favorables += 1                
-            else:
-                n+=1               
-            i += 1
-            frecuencia.append(favorables / i)
-            flujo_caja.append(capital)
-        grafica_flujo_caja(flujo_caja)
-        grafica_frecuencia(frecuencia)
-        grafica_torta(favorables, i)
-    else: #PARA CAPITAL INFINITO
-        n=1
-        for x in range(0, cont_tiradas):
-            monto_apuesta=secuencia[n]*10
-            capital-=monto_apuesta            
-            premio=rulet.apuesta(monto_apuesta, color_apostado)
-            if (premio!=0):
-                capital += premio
-                if n>=2:
-                    n-=2
-                else: 
-                    n=0    
-                
+                if n >= 3:
+                    n -= 2
+                else:
+                    n = 1
                 favorables += 1
-                
             else:
-                n+=1              
-        
+                n += 1
+            i += 1
+            frecuencia.append(favorables / i)
+            flujo_caja.append(capital)
+        grafica_flujo_caja(flujo_caja)
+        grafica_frecuencia(frecuencia)
+        grafica_torta(favorables, negro, verde)
+    else:  # PARA CAPITAL INFINITO
+        n = 1
+        for x in range(0, cont_tiradas):
+            monto_apuesta = secuencia[n] * 10
+            capital -= monto_apuesta
+            premio = rulet.apuesta(monto_apuesta, color_apostado)
+            if (premio != 0):
+                capital += premio
+                if n >= 2:
+                    n -= 2
+                else:
+                    n = 0
+
+                favorables += 1
+
+            else:
+                n += 1
 
             i += 1
             frecuencia.append(favorables / i)
@@ -336,13 +354,14 @@ def fibonacci():
 
         grafica_flujo_caja(flujo_caja)
         grafica_frecuencia(frecuencia)
-        grafica_torta(favorables, i)
+        grafica_torta(favorables, negro, verde)
+
 
 def fibonacci_poblacion():
     flujo_caja = []
     frecuencia = []
     poblacion = []
-    rulet=ruleta()
+    rulet = ruleta()
     global CAPITAL_INICIAL
     global MONTO_APUESTA_INICIAL
     capital = CAPITAL_INICIAL
@@ -352,25 +371,25 @@ def fibonacci_poblacion():
     n = 1
     secuencia_fibonacci()
     favorables = 0
-    
-    for i in range(0, 100):
+
+    for i in range(0,2):
         while capital >= monto_apuesta:
-             capital-=monto_apuesta                        
-             premio=rulet.apuesta(monto_apuesta, color_apostado)
-             if (premio!=0):
+            capital -= monto_apuesta
+            premio = rulet.apuesta(monto_apuesta, color_apostado)
+            if (premio != 0):
                 capital += premio
-                if n>=3:
-                    n-=2
-                else: 
-                    n=1    
-                
+                if n >= 3:
+                    n -= 2
+                else:
+                    n = 1
+
                 favorables += 1
-                
-             else:
-                n+=1
-             i+= 1
-             frecuencia.append(favorables / i)
-             flujo_caja.append(capital)
+
+            else:
+                n += 1
+            i += 1
+            frecuencia.append(favorables / i)
+            flujo_caja.append(capital)
 
         poblacion.append(flujo_caja)
         flujo_caja = []
@@ -378,14 +397,13 @@ def fibonacci_poblacion():
         monto_apuesta = secuencia[1]
         color_apostado = "R"
         favorables = 0
-        
 
     grafica_flujo_caja_poblacion(poblacion)
 
 
 system("cls")
-CAPITAL_INFINITO = 'N' # 'S' es para capital infinito. 'N' con capital limitado
-fibonacci()
+CAPITAL_INFINITO = 'N'  # 'S' es para capital infinito. 'N' con capital limitado
+#fibonacci()
 #fibonacci_poblacion()
-#martingala()
-#martingala_poblacion()
+martingala()
+# martingala_poblacion()
