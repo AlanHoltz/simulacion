@@ -228,7 +228,7 @@ grafica_frecuencia_relativa_gral(12)
 grafica_frecuencia_relativa(18)
 grafica_frecuencia_relativa_gral(18)
 grafica_frecuencia_relativa(27)
-grafica_frecuencia_relativa_gral(18)
+grafica_frecuencia_relativa_gral(27)
 
 grafica_promedios()
 grafica_promedio_gral()
@@ -239,6 +239,3 @@ grafica_varianza_gral()
 
 grafica_dispersion()
 grafica_histograma()
-
-
-
