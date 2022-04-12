@@ -26,7 +26,7 @@ class ruleta:
     def __init__(self):
         num = []
 
-        N0 = num_ruleta(0, "v", 0, 0)
+        N0 = num_ruleta(0, "V", 0, 0)
         num.append(N0)
         N1 = num_ruleta(1, "R", 1, 1)
         num.append(N1)
@@ -122,7 +122,8 @@ class ruleta:
         if (ganador.color == 'N'):
             negro +=1
         else:
-            verde+=1
+            if(ganador.color== 'V'):
+                verde+=1
         return premio
 
     pass
