@@ -241,7 +241,6 @@ def martingala():
         grafica_frecuencia(frecuencia)
         grafica_torta(favorables, negro, verde)
 
-
 def martingala_poblacion():
     rulet = ruleta()
     flujo_caja = []
@@ -254,22 +253,35 @@ def martingala_poblacion():
     color_apostado = "R"
     i = 0
     favorables = 0
-    for i in range(0, 100):
-        while capital >= monto_apuesta:
-
-            capital -= monto_apuesta
-            premio = rulet.apuesta(monto_apuesta, color_apostado)
-            if (premio != 0):
-                capital += premio
-                monto_apuesta = MONTO_APUESTA_INICIAL
-                favorables += 1
-            else:
-                monto_apuesta *= 2
-
-            i += 1
-
-            frecuencia.append(favorables / i)
-            flujo_caja.append(capital)
+    cont_tiradas = 200 #contador limite de tiradas por corrida para capital infinito
+    cont_corridas = 50 #cantidad de corridas para una poblacion
+    for i in range(0, cont_corridas):
+        if (CAPITAL_INFINITO == 'N'):
+            while capital >= monto_apuesta:
+                        capital -= monto_apuesta
+                        premio = rulet.apuesta(monto_apuesta, color_apostado)
+                        if (premio != 0):
+                            capital += premio
+                            monto_apuesta = MONTO_APUESTA_INICIAL
+                            favorables += 1
+                        else:
+                            monto_apuesta *= 2
+                        i += 1
+                        frecuencia.append(favorables / i)
+                        flujo_caja.append(capital)
+        else:  # PARA CAPITAL INFINITO
+            for x in range(0, cont_tiradas):
+                premio = rulet.apuesta(monto_apuesta, color_apostado)
+                capital -= monto_apuesta
+                if (premio != 0):
+                    capital += premio
+                    monto_apuesta = MONTO_APUESTA_INICIAL
+                    favorables += 1
+                else:
+                    monto_apuesta *= 2
+                i += 1
+                frecuencia.append(favorables / i)
+                flujo_caja.append(capital)
         poblacion.append(flujo_caja)
         flujo_caja = []
         frecuencia = []
