@@ -322,10 +322,10 @@ def fibonacci():
 
     n = 1
     secuencia_fibonacci()
-    monto_apuesta = secuencia[n] * 10
+    monto_apuesta = secuencia[n] * 100
     if (CAPITAL_INFINITO == 'N'):
         while capital >= monto_apuesta:
-            monto_apuesta = secuencia[n] * 10
+            monto_apuesta = secuencia[n] * 100
             capital -= monto_apuesta
             premio = rulet.apuesta(monto_apuesta, color_apostado)
             if (premio != 0):
@@ -378,45 +378,67 @@ def fibonacci_poblacion():
     global CAPITAL_INICIAL
     global MONTO_APUESTA_INICIAL
     capital = CAPITAL_INICIAL
-    monto_apuesta = MONTO_APUESTA_INICIAL
-    color_apostado = "R"
-    i = 0
     n = 1
+    color_apostado = "R"
     secuencia_fibonacci()
+    monto_apuesta = secuencia[n] * 10
     favorables = 0
-
-    for i in range(0,2):
-        while capital >= monto_apuesta:
-            capital -= monto_apuesta
-            premio = rulet.apuesta(monto_apuesta, color_apostado)
-            if (premio != 0):
-                capital += premio
-                if n >= 3:
-                    n -= 2
+    cont_tiradas = 1000#contador limite de tiradas por corrida para capital infinito
+    cont_corridas = 25 #cantidad de corridas para una poblacion
+    for i in range(0,cont_corridas):
+        if (CAPITAL_INFINITO == 'N'):
+            while capital >= monto_apuesta:
+                monto_apuesta = secuencia[n] * 100
+                capital -= monto_apuesta
+                premio = rulet.apuesta(monto_apuesta, color_apostado)
+                if (premio != 0):
+                    capital += premio
+                    if n >= 3:
+                        n -= 2
+                    else:
+                        n = 1
+                    favorables += 1
                 else:
-                    n = 1
+                    n += 1
+                i += 1
+                frecuencia.append(favorables / i)
+                flujo_caja.append(capital)
+        else:  # PARA CAPITAL INFINITO
+            n = 1
+            for x in range(0, cont_tiradas):
+                monto_apuesta = secuencia[n] * 10
+                capital -= monto_apuesta
+                premio = rulet.apuesta(monto_apuesta, color_apostado)
+                if (premio != 0):
+                    capital += premio
+                    if n >= 2:
+                        n -= 2
+                    else:
+                        n = 0
 
-                favorables += 1
+                    favorables += 1
 
-            else:
-                n += 1
-            i += 1
-            frecuencia.append(favorables / i)
-            flujo_caja.append(capital)
+                else:
+                    n += 1
 
+                i += 1
+                flujo_caja.append(capital)
         poblacion.append(flujo_caja)
         flujo_caja = []
+        frecuencia = []
+        rulet = ruleta()
         capital = CAPITAL_INICIAL
-        monto_apuesta = secuencia[1]
+        secuencia_fibonacci()
+        n = 1
+        monto_apuesta = secuencia[n] * 10
         color_apostado = "R"
         favorables = 0
-
     grafica_flujo_caja_poblacion(poblacion)
 
 
 system("cls")
-CAPITAL_INFINITO = 'N'  # 'S' es para capital infinito. 'N' con capital limitado
+CAPITAL_INFINITO = 'S'  # 'S' es para capital infinito. 'N' con capital limitado
 #fibonacci()
-#fibonacci_poblacion()
-martingala()
+fibonacci_poblacion()
+#martingala()
 # martingala_poblacion()
