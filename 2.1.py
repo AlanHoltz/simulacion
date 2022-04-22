@@ -16,23 +16,23 @@ def generador_GCL():
         print(numeros)
 
 
+
 def generador_pmc():
-    seed = 9731
-    n=5 #cantidad de numeros generados
+    seed = 6923
+    n=100 #cantidad de numeros generados
     numeros = [seed]
     sem = []
     sem2 =[]
-    for i in range(1, n):
+    for i in range(1,n):
         x = numeros[i - 1] ** 2
-        print("Numero de 8 digitos:     ",x)
+        print(x)
+        if(len(str(x))<8):
+            print("antes:",x)
+            x=completa_ceros(x)
+            print("desp:",x)
         sem = [int(a) for a in str(x)]
-        print("sem:     ",sem)
-        if(len(sem)<8):
-            completa_ceros(sem)
-
         sem2 = sem[2:6]
         seed =int(''.join(map(str, sem2)))
-        print("Proxima semilla:     ",seed)
         numeros.append(seed)
     print("Numeros:     ",numeros)
 
