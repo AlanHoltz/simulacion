@@ -29,6 +29,7 @@ def generador_pmc():
         print("sem:     ",sem)
         if(len(sem)<8):
             completa_ceros(sem)
+
         sem2 = sem[2:6]
         seed =int(''.join(map(str, sem2)))
         print("Proxima semilla:     ",seed)
@@ -41,6 +42,9 @@ def completa_ceros(sem):
         sem = '0' + sem
     return sem
 
+
+
 numeros=[]
+
 generador_pmc()
 #generador_GCL()
