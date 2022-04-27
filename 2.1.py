@@ -4,18 +4,16 @@ from random import randint
 
 def generador_GCL():
         numeros = []
-        m = 187 #modulo
-        a = 5 #multipliador
-        c = 202 #Incremento
+        m = 2**48 #modulo
+        a = 25214903917  #multipliador
+        c = 11 #Incremento
         semilla = 14758
         numeros.append(semilla)
 
         for i in range(1,100):
             nro = (a*numeros[i-1] + c) % m
             numeros.append(nro)
-        print(numeros)
-
-
+        print("GCL:     ",numeros)
 
 def generador_pmc():
     seed = 6923
@@ -25,16 +23,13 @@ def generador_pmc():
     sem2 =[]
     for i in range(1,n):
         x = numeros[i - 1] ** 2
-        print(x)
         if(len(str(x))<8):
-            print("antes:",x)
             x=completa_ceros(x)
-            print("desp:",x)
         sem = [int(a) for a in str(x)]
         sem2 = sem[2:6]
         seed =int(''.join(map(str, sem2)))
         numeros.append(seed)
-    print("Numeros:     ",numeros)
+    print("PMC:     ",numeros)
 
 def completa_ceros(sem):
     sem = str(sem)
@@ -47,4 +42,4 @@ def completa_ceros(sem):
 numeros=[]
 
 generador_pmc()
-#generador_GCL()
+generador_GCL()
