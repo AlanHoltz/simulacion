@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="45e0093a-89a3-47a7-8c60-1792bce6626d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2.1.py" beforeDir="false" afterPath="$PROJECT_DIR$/2.1.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,8 +93,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.tprandom" />
         <item itemvalue="Python.2.1" />
         <item itemvalue="Python.tprandom" />
+        <item itemvalue="Python.2.1" />
+        <item itemvalue="Python.2.1" />
       </list>
     </recent_temporary>
   </component>
