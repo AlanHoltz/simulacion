@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="45e0093a-89a3-47a7-8c60-1792bce6626d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/2.1.py" beforeDir="false" afterPath="$PROJECT_DIR$/2.1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,7 +118,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/ruletaystratnueva" />
+                        <option value="main" />
                       </list>
                     </value>
                   </entry>
