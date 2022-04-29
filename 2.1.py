@@ -231,3 +231,10 @@ def prueba_poker():
     observada.append(p2)
     observada.append(p1)
     print(observada)
+    for i in range(0,7):
+        x = ((esperada[i]*observada[i])**2)/esperada[i]
+    print(x)
+    chi_cuadrado = 12.5916
+    if x<= chi_cuadrado:
+        print("No se puede rechazar que los numeros son independientes")
+
