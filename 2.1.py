@@ -1,9 +1,11 @@
 import matplotlib.pyplot as plt
 from os import system
 from random import randint
+from sklearn import preprocessing
+import numpy as np
 
 def generador_GCL():
-        numeros = []
+        global numeros
         m = 2**48 #modulo
         a = 25214903917  #multipliador
         c = 11 #Incremento
@@ -13,9 +15,10 @@ def generador_GCL():
         for i in range(1,100):
             nro = (a*numeros[i-1] + c) % m
             numeros.append(nro)
-        print("GCL:     ",numeros)
+        #print("GCL:     ",numeros)
 
 def generador_pmc():
+    global numeros
     seed = 6923
     n=100 #cantidad de numeros generados
     numeros = [seed]
@@ -29,7 +32,7 @@ def generador_pmc():
         sem2 = sem[2:6]
         seed =int(''.join(map(str, sem2)))
         numeros.append(seed)
-    print("PMC:     ",numeros)
+    #print("PMC:     ",numeros)
 
 def completa_ceros(sem):
     sem = str(sem)
@@ -37,9 +40,17 @@ def completa_ceros(sem):
         sem = '0' + sem
     return sem
 
+def normalizar ():
+    global numeros_normalizado
+    list = np.array(numeros).reshape(-1, 1)
+    scaler = preprocessing.MinMaxScaler()
+    numeros_normalizado = scaler.fit_transform(list)
+    print('Numeros normalizados', numeros_normalizado)
+
 
 
 numeros=[]
-
-generador_pmc()
+numeros_normalizado = []
+#generador_pmc()
 generador_GCL()
+normalizar()
