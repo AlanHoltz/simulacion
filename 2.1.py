@@ -6,42 +6,30 @@ import numpy as np
 
 def generador_GCL():
         global numeros
-        numeros_poker  = []
         m = 2**48 #modulo
         a = 25214903917  #multipliador
         c = 11 #Incremento
         semilla = 14758
         numeros.append(semilla)
-
-        for i in range(1,100):
+        n=100
+        for i in range(1, n):
             nro = (a*numeros[i-1] + c) % m
-            nro_p = [int(a) for a in str(nro)]
-            nro_p1 = nro_p[1:6]
             numeros.append(nro)
-            numeros_poker.append(nro_p1)
-        prueba_poker(numeros_poker)
-        #print("GCL:     ",numeros)
-
+        normalizar()
 def generador_pmc():
     global numeros
-    numeros_poker =[]
     seed = 6923
-    n=10000 #cantidad de numeros generados
+    n=1000 #cantidad de numeros generados
     numeros = [seed]
-    sem = []
-    sem2 =[]
     for i in range(1,n):
         x = numeros[i - 1] ** 2
         if(len(str(x))<8):
-            x=completa_ceros(x)
+            x = completa_ceros(x)
         sem = [int(a) for a in str(x)]
         sem2 = sem[2:6]
-        sem3 = sem[1:6]
         seed =int(''.join(map(str, sem2)))
-        numeros_poker.append(sem3)
         numeros.append(seed)
-    prueba_poker(numeros_poker)
-    #print(numeros_poker)
+    normalizar()
     #print("PMC:     ",numeros)
 
 def completa_ceros(sem):
@@ -51,12 +39,25 @@ def completa_ceros(sem):
     return sem
 
 def normalizar ():
-    global numeros_normalizado
+    global numeros_normalizados
+    numeros_poker = []
+    columna=[]
     list = np.array(numeros).reshape(-1, 1)
     scaler = preprocessing.MinMaxScaler()
-    numeros_normalizado = scaler.fit_transform(list)
-    print('Numeros normalizados', numeros_normalizado)
+    numeros_normalizados = scaler.fit_transform(list)
 
+    for i in range(0, len(numeros_normalizados)): # genera una nueva lista con los numeros normalizados numeros_poker=[] para pasarlo a prubea_poker
+        cadena = str(numeros_normalizados[i])
+        separador = '.'
+        decimal = cadena.split(separador)
+        x = decimal[1]
+        for i in range(0,len(x)-1):
+            x0 = x[i]
+            columna.append(x0)
+        poker = columna[1:6]
+        numeros_poker.append(poker)
+        columna = []
+    prueba_poker(numeros_poker)
 
 def prueba_poker(numeros):
     c = 0
@@ -68,25 +69,31 @@ def prueba_poker(numeros):
     fila = []
     columna = []
     que_hay = []
-    lista_nueva = numeros
+    lista_nueva = []
+    for i in range(0,len(numeros)):
+        num = list(map(int, numeros[i]))
+        lista_nueva.append(num)
     n = len(lista_nueva)
-    print(lista_nueva)
-    for i in range(0,n):
+    #print("lista nueva:",lista_nueva)
+    for i in range(0, n):
         que_hay.append('')
+    probabilidad.append(0.30240) #pachuca
+    probabilidad.append(0.00010) #quintilla
+    probabilidad.append(0.009) #full
+    probabilidad.append(0.00450) #poker
+    probabilidad.append(0.07200) #tercia
+    probabilidad.append(0.10800) #par2
+    probabilidad.append(0.50400) #par
 
-    probabilidad.append(0.30240)
-    probabilidad.append(0.00010)
-    probabilidad.append(0.009)
-    probabilidad.append(0.00450)
-    probabilidad.append(0.07200)
-    probabilidad.append(0.10800)
-    probabilidad.append(0.50400)
-
-    for i in range(len(probabilidad)): #probabilidad de cada jugada
+    for i in range(len(probabilidad)): #probabilidad esperada de cada jugada
         e = n * probabilidad[i]
         esperada.append(e)
 
     for i in range(len(lista_nueva)): #genera una lista donde guarda la cantidad de veces q se repitio el digito en el nro, ej: nro = 44266 array = [2,2,1,2,2]
+        if lista_nueva[i] == []:
+            lista_nueva[i]= [0, 0, 0, 0, 0]
+        while len(lista_nueva[i])<5 :
+            lista_nueva[i].append(0)
         for a in range(0, 5):
             compara = lista_nueva[i][a]
             for j in range(0, 5):
@@ -140,13 +147,14 @@ def prueba_poker(numeros):
             que_hay[h] = 'tercia'
             t += 1
 
-    observada.append(pa)
-    observada.append(q)
-    observada.append(f)
-    observada.append(po)
-    observada.append(t)
-    observada.append(p2)
-    observada.append(p1)
+    observada.append(pa) #pachuca
+    observada.append(q) #quintilla
+    observada.append(f) #full
+    observada.append(po) #poker
+    observada.append(t) #tercia
+    observada.append(p2) #par2
+    observada.append(p1) #par
+
     #print("Pachuca:",observada[0],
     #      "Quintilla:",observada[1],
     #      "Full:",observada[2],
@@ -165,7 +173,7 @@ def prueba_poker(numeros):
 
 
 numeros=[]
-numeros_normalizado = []
-generador_pmc()
-#generador_GCL()
-#normalizar()
+numeros_normalizados = []
+#generador_pmc()
+generador_GCL()
+
