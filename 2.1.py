@@ -4,6 +4,8 @@ from random import randint
 from sklearn import preprocessing
 import numpy as np
 import seaborn as sns
+import statistics
+import math
 
 def generador_GCL():
         global numeros
@@ -18,6 +20,7 @@ def generador_GCL():
             nro = (a*numeros[i-1] + c) % m
             numeros.append(nro)
         normalizar()
+
 def generador_pmc():
     global numeros
     global cantidad_numeros
@@ -61,6 +64,7 @@ def normalizar ():
         numeros_poker.append(poker)
         columna = []
     prueba_poker(numeros_poker)
+    prueba_de_rachas()
 
 def prueba_poker(numeros):
     c = 0
@@ -169,9 +173,34 @@ def prueba_poker(numeros):
         x = ((esperada[i]-observada[i])**2)/esperada[i]
     chi_cuadrado = 12.5916
     if x <= chi_cuadrado:
-        print("los números generados son estadísticamente independientes.")
+        print("PRUEBA DE POKER: los números generados son estadísticamente independientes.")
     else:
-        print("Se rechaza que los numeros son independientes. No son aleatorios")
+        print("PRUEBA DE POKER: Se rechaza que los numeros son independientes. No son aleatorios")
+
+def prueba_de_rachas():
+    rachas, n1, n2 = 0, 0, 0
+    media = statistics.median(numeros)
+
+    for i in range(len(numeros)):
+
+        if (numeros[i] >= media and numeros[i - 1] < media) or \
+                (numeros[i] < media and numeros[i - 1] >= media):
+            rachas += 1
+
+        if (numeros[i]) >= media:
+            n1 += 1
+        else:
+            n2 += 1
+    rachas_esp = ((2 * n1 * n2) / (n1 + n2)) + 1  # Número de corridas esperadas
+    desv = math.sqrt((2 * n1 * n2 * (2 * n1 * n2 - n1 - n2)) / (
+                ((n1 + n2) ** 2) * (n1 + n2 - 1)))  # Desviación estándar del número de carreras
+
+    Z = (rachas - rachas_esp) / desv
+
+    if (Z > -1.96 and Z < 1.96):  # Para un nivel de confianza del 95%
+        print("PRUEBA DE RACHAS: Los numeros son aleatorios ")
+    else:
+        print("PRUEBA DE RACHAS: Los numeros no son aleatorios ")
 
 def grafica_dispersion():
     x = []
@@ -179,7 +208,7 @@ def grafica_dispersion():
     for i in range(0,1000):
         x.append(i)
     for i in range(0,1000):
-        y.append(numeros[i])
+        y.append(numeros_normalizados[i])
     plt.scatter(x,y, label='scatter')  # Dibuja diagrama de dispersión
     plt.legend()
     plt.show()
@@ -187,7 +216,6 @@ def grafica_dispersion():
 cantidad_numeros = 0
 numeros=[]
 numeros_normalizados = []
-generador_pmc()
-#generador_GCL()
+#generador_pmc()
+generador_GCL()
 grafica_dispersion()
-
