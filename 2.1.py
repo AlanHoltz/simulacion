@@ -3,25 +3,28 @@ from os import system
 from random import randint
 from sklearn import preprocessing
 import numpy as np
+import seaborn as sns
 
 def generador_GCL():
         global numeros
+        global cantidad_numeros
         m = 2**48 #modulo
         a = 25214903917  #multipliador
         c = 11 #Incremento
         semilla = 14758
         numeros.append(semilla)
-        n=100
-        for i in range(1, n):
+        cantidad_numeros=100000
+        for i in range(1, cantidad_numeros):
             nro = (a*numeros[i-1] + c) % m
             numeros.append(nro)
         normalizar()
 def generador_pmc():
     global numeros
+    global cantidad_numeros
     seed = 6923
-    n=1000 #cantidad de numeros generados
+    cantidad_numeros =100000 #cantidad de numeros generados
     numeros = [seed]
-    for i in range(1,n):
+    for i in range(1,cantidad_numeros):
         x = numeros[i - 1] ** 2
         if(len(str(x))<8):
             x = completa_ceros(x)
@@ -70,7 +73,7 @@ def prueba_poker(numeros):
     columna = []
     que_hay = []
     lista_nueva = []
-    for i in range(0,len(numeros)):
+    for i in range(0, len(numeros)):
         num = list(map(int, numeros[i]))
         lista_nueva.append(num)
     n = len(lista_nueva)
@@ -170,10 +173,21 @@ def prueba_poker(numeros):
     else:
         print("Se rechaza que los numeros son independientes. No son aleatorios")
 
+def grafica_dispersion():
+    x = []
+    y = []
+    for i in range(0,1000):
+        x.append(i)
+    for i in range(0,1000):
+        y.append(numeros[i])
+    plt.scatter(x,y, label='scatter')  # Dibuja diagrama de dispersión
+    plt.legend()
+    plt.show()
 
-
+cantidad_numeros = 0
 numeros=[]
 numeros_normalizados = []
-#generador_pmc()
-generador_GCL()
+generador_pmc()
+#generador_GCL()
+grafica_dispersion()
 
