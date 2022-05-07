@@ -3,29 +3,26 @@ from os import system
 from random import randint
 from sklearn import preprocessing
 import numpy as np
+
 import seaborn as sns
 import statistics
 import math
 
-def generador_GCL():
+def generador_GCL(cantidad_numeros):
         global numeros
-        global cantidad_numeros
         m = 2**48 #modulo
         a = 25214903917  #multipliador
         c = 11 #Incremento
         semilla = 14758
         numeros.append(semilla)
-        cantidad_numeros=100000
         for i in range(1, cantidad_numeros):
             nro = (a*numeros[i-1] + c) % m
             numeros.append(nro)
         normalizar()
 
-def generador_pmc():
+def generador_pmc(cantidad_numeros):
     global numeros
-    global cantidad_numeros
     seed = 6923
-    cantidad_numeros =100000 #cantidad de numeros generados
     numeros = [seed]
     for i in range(1,cantidad_numeros):
         x = numeros[i - 1] ** 2
@@ -52,7 +49,7 @@ def normalizar ():
     scaler = preprocessing.MinMaxScaler()
     numeros_normalizados = scaler.fit_transform(list)
 
-    for i in range(0, len(numeros_normalizados)): # genera una nueva lista con los numeros normalizados numeros_poker=[] para pasarlo a prubea_poker
+    for i in range(0, cantidad_numeros): # genera una nueva lista con los numeros normalizados numeros_poker=[] para pasarlo a prubea_poker
         cadena = str(numeros_normalizados[i])
         separador = '.'
         decimal = cadena.split(separador)
@@ -63,8 +60,10 @@ def normalizar ():
         poker = columna[1:6]
         numeros_poker.append(poker)
         columna = []
+
     prueba_poker(numeros_poker)
     prueba_de_rachas()
+    prueba_SK()
 
 def prueba_poker(numeros):
     c = 0
@@ -205,17 +204,37 @@ def prueba_de_rachas():
 def grafica_dispersion():
     x = []
     y = []
-    for i in range(0,1000):
+    for i in range(0,cantidad_numeros):
         x.append(i)
-    for i in range(0,1000):
+    for i in range(0,cantidad_numeros):
         y.append(numeros_normalizados[i])
     plt.scatter(x,y, label='scatter')  # Dibuja diagrama de dispersión
     plt.legend()
     plt.show()
 
-cantidad_numeros = 0
+def prueba_SK ():
+    frecuencia = []
+    D =[]
+    ordenados = sorted(numeros_normalizados) #ordena de forma ascendente
+    for i in range (1, cantidad_numeros+1):
+        frecuencia.append(i/cantidad_numeros)
+    for i in range (0, cantidad_numeros):
+        D.append(abs(ordenados[i]-frecuencia[i]))
+    #for i in range(0, cantidad_numeros):
+    #    print(D[i])
+    maxi = max(D) # obtiene el mayor de D
+    num_tabla = 1.36/math.sqrt(cantidad_numeros) # con un nivel de significancia del 0.05
+    if maxi < num_tabla:
+        print("PRUEBA DE SMIRNOV -KOLMOGOROV: No se puede rechazar que los numeros pseudoaleatorios son uniformes")
+    else:
+        print("PRUEBA DE SMIRNOV -KOLMOGOROV: Se rechaza que los numeros pseudoaleatorios son uniformes")
+
+
+
 numeros=[]
 numeros_normalizados = []
-#generador_pmc()
-generador_GCL()
-grafica_dispersion()
+cantidad_numeros = 100000 #tamaño de la lista de numeros generados
+#generador_pmc(cantidad_numeros)
+generador_GCL(cantidad_numeros)
+#grafica_dispersion()
+
