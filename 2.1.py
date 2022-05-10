@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 from os import system
 from random import randint
+import random
 from sklearn import preprocessing
 import numpy as np
 import pandas as pd
@@ -8,6 +9,30 @@ import seaborn as sns
 import statistics
 import math
 from scipy import stats
+
+def generador_python():
+    global numeros_poker
+    columna = []
+    for i in range(cantidad_numeros):
+        numeros_normalizados.append(random.random())
+        numeros.append(random.randint(0, 100000))
+
+    for i in range(0, cantidad_numeros): # genera una nueva lista con los numeros normalizados numeros_poker=[] para pasarlo a prubea_poker
+        cadena = str(numeros_normalizados[i])
+        separador = '.'
+        decimal = cadena.split(separador)
+        x = decimal[1]
+        for i in range(0,len(x)-1):
+            x0 = x[i]
+            columna.append(x0)
+        poker = columna[1:6]
+        numeros_poker.append(poker)
+        columna = []
+    prueba_poker(numeros_poker)
+    prueba_de_rachas()
+    prueba_SK()
+    prueba_bondad_ajuste()
+
 
 def generador_GCL(cantidad_numeros):
         global numeros
@@ -19,6 +44,7 @@ def generador_GCL(cantidad_numeros):
         for i in range(1, cantidad_numeros):
             nro = (a*numeros[i-1] + c) % m
             numeros.append(nro)
+
         normalizar()
 
 def generador_pmc(cantidad_numeros):
@@ -44,7 +70,7 @@ def completa_ceros(sem):
 
 def normalizar ():
     global numeros_normalizados
-    numeros_poker = []
+    global numeros_poker
     columna=[]
     list = np.array(numeros).reshape(-1, 1)
     scaler = preprocessing.MinMaxScaler()
@@ -66,6 +92,7 @@ def normalizar ():
     prueba_de_rachas()
     prueba_SK()
     prueba_bondad_ajuste()
+
 
 def prueba_poker(numeros):
     c = 0
@@ -203,16 +230,6 @@ def prueba_de_rachas():
     else:
         print("PRUEBA DE RACHAS: Los numeros no son aleatorios ")
 
-def grafica_dispersion():
-    x = []
-    y = []
-    for i in range(0,cantidad_numeros):
-        x.append(i)
-    for i in range(0,cantidad_numeros):
-        y.append(numeros_normalizados[i])
-    plt.scatter(x,y, label='scatter')  # Dibuja diagrama de dispersión
-    plt.legend()
-    plt.show()
 
 def prueba_SK ():
     frecuencia = []
@@ -249,11 +266,24 @@ def prueba_bondad_ajuste():
     else:
          print("PRUEBA DE BONDAD DE AJUSTE CHI2: los numeros NO tienen una distribucion uniforme")
 
+def grafica_dispersion():
+    x = []
+    y = []
+    for i in range(0,cantidad_numeros):
+        x.append(i)
+    for i in range(0,cantidad_numeros):
+        y.append(numeros_normalizados[i])
+    plt.scatter(x,y, label='scatter')  # Dibuja diagrama de dispersión
+    plt.legend()
+    plt.show()
 
 numeros=[]
 numeros_normalizados = []
+numeros_poker = []
+
 cantidad_numeros = 10000  #tamaño de la lista de numeros generados
-generador_pmc(cantidad_numeros)
+#generador_pmc(cantidad_numeros)
 #generador_GCL(cantidad_numeros)
-#grafica_dispersion()
+generador_python()
+grafica_dispersion()
 
