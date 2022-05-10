@@ -3,10 +3,11 @@ from os import system
 from random import randint
 from sklearn import preprocessing
 import numpy as np
-
+import pandas as pd
 import seaborn as sns
 import statistics
 import math
+from scipy import stats
 
 def generador_GCL(cantidad_numeros):
         global numeros
@@ -64,6 +65,7 @@ def normalizar ():
     prueba_poker(numeros_poker)
     prueba_de_rachas()
     prueba_SK()
+    prueba_bondad_ajuste()
 
 def prueba_poker(numeros):
     c = 0
@@ -229,12 +231,29 @@ def prueba_SK ():
     else:
         print("PRUEBA DE SMIRNOV -KOLMOGOROV: Se rechaza que los numeros pseudoaleatorios son uniformes")
 
+def prueba_bondad_ajuste():
+    chi2 = 0
+    intervalos = int(cantidad_numeros/math.sqrt(cantidad_numeros))
+    #print("intervalos:",intervalos)
+    obs = pd.cut(numeros, intervalos).value_counts()  #corta la lista en intervalos y cuenta las observaciones de cada intervalo
+    #print("obs",obs)
+    esperado = cantidad_numeros/intervalos
+    for i in range(0,intervalos-1):
+        x = ((obs[i]-esperado)**2)/esperado
+        chi2 += x
+    #print("chi calculado", chi2)
+    chi2_tabla = 140.1697 #para grados de libertad = 99
+    #se debe ir modificando en base a la tabla. Para grados de libertad: intervalos-1 y el nivel de confiaza va a ser siempre 0.05
+    if chi2 < chi2_tabla:
+         print("PRUEBA DE BONDAD DE AJUSTE CHI2: los numeros tienen una distribucion uniforme")
+    else:
+         print("PRUEBA DE BONDAD DE AJUSTE CHI2: los numeros NO tienen una distribucion uniforme")
 
 
 numeros=[]
 numeros_normalizados = []
-cantidad_numeros = 100000 #tamaño de la lista de numeros generados
-#generador_pmc(cantidad_numeros)
-generador_GCL(cantidad_numeros)
+cantidad_numeros = 10000  #tamaño de la lista de numeros generados
+generador_pmc(cantidad_numeros)
+#generador_GCL(cantidad_numeros)
 #grafica_dispersion()
 
