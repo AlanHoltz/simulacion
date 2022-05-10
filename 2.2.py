@@ -1,8 +1,11 @@
 from random import random
 from math import log,exp
+import matplotlib.pyplot as plt
+import pandas as pd
 
-# random() devuelve un número entre 0 y 1
+total_nros = 1500 #Cantidad de numeros a generar
 
+#DISTRIBUCIONES
 def distribucion_uniforme(a,b):
     return a + (b-a) * random()
 
@@ -77,19 +80,54 @@ def distribucion_poisson(p):
 
     return x
 
-##  FALTA IMPLEMENTAR LA DISTRIBUCIÓN EMPÍRICA DISCRETA
+def distribucion_empirica_discreta():
+    x = 0
+    p = [0.273, 0.039, 0.192, 0.007, 0.124, 0.058, 0.062, 0.151, 0.047, 0.044]
+    u = random()
+    acum = 0
+    
+    while (u > acum) and (u > p[0]) :
+        acum += p[x]
+        x = x + 1
+    if x == 0:
+        return(x)
+    else:
+        return(x-1)
+
+
+
+
+#GRAFICAS
+def grafica_dispersion():
+    plt.figure('DISPERSIÓN')
+    plt.title('Dispersión de los valores generados')
+    plt.xlabel('')
+    plt.ylabel('Valor')
+    plt.plot(generador(total_nros), 'o', label='Dispersión de la primera corrida', color='orange')
+    plt.show()
+
+def grafica_histograma():
+    plt.figure('HISTOGRAMA')
+    plt.title('Histograma de frecuencias de los valores generados')
+    plt.xlabel('Valor generado')
+    plt.ylabel('Frecuencia absoluta')
+    plt.hist(generador(total_nros), color='green')
+    plt.show()
 
 
 
 
 def generador(n):
-    for i in range(0,n):
+    numeros_generados = []
+    for i in range(n):
                                         #PARA TESTEAR TODAS LAS DISTRIBUCIONES CAMBIAR ESTA LÍNEA CON UNA DE LAS FUNCIONES 
-        nG = distribucion_poisson(0.35) # <-------------------------------------------------------------------------------
+        numeros_generados.append(distribucion_binomial(400,0.8)) # <-------------------------------------------------------------------------------
                                         #QUE SE ENCUENTRAN ARRIBA RESPETANDO TODOS LOS PARÁMETROS
-        print(nG);
+    return(numeros_generados);  
 
-generador(300)
+
+grafica_dispersion()
+grafica_histograma()
 
 
 
