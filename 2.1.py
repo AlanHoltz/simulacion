@@ -244,7 +244,7 @@ def prueba_de_rachas():
     plt.title('Distribución Normal (0,1)')  # Título del gráfico
     plt.ylabel('f(x)')  # Título del eje y
     plt.xlabel('X')  # Título del eje x
-    plt.fill_between(x, y, 0, where=(x >= -1.96) & (x <= 1.96), color='g', label="Zona de rechazo")
+    plt.fill_between(x, y, 0, where=(x >= -1.96) & (x <= 1.96), color='g', label="Zona de NO rechazo")
     ax.legend()
     plt.plot(x,y)
     plt.show()
