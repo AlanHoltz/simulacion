@@ -28,6 +28,8 @@ def generador_python():
         poker = columna[1:6]
         numeros_poker.append(poker)
         columna = []
+    print("------------------------------------------------------------")
+    print("Generador PYTHON:")
     prueba_poker(numeros_poker)
     prueba_de_rachas()
     prueba_SK()
@@ -44,7 +46,8 @@ def generador_GCL(cantidad_numeros):
         for i in range(1, cantidad_numeros):
             nro = (a*numeros[i-1] + c) % m
             numeros.append(nro)
-
+        print("------------------------------------------------------------")
+        print("Generador Congruencial Lineal:")
         normalizar()
 
 def generador_pmc(cantidad_numeros):
@@ -59,7 +62,10 @@ def generador_pmc(cantidad_numeros):
         sem2 = sem[2:6]
         seed =int(''.join(map(str, sem2)))
         numeros.append(seed)
+    print("------------------------------------------------------------")
+    print("Generador Parte Media del Cuadrado:")
     normalizar()
+
     #print("PMC:     ",numeros)
 
 def completa_ceros(sem):
@@ -92,7 +98,6 @@ def normalizar ():
     prueba_de_rachas()
     prueba_SK()
     prueba_bondad_ajuste()
-
 
 def prueba_poker(numeros):
     c = 0
@@ -230,7 +235,6 @@ def prueba_de_rachas():
     else:
         print("PRUEBA DE RACHAS: Los numeros no son aleatorios ")
 
-
 def prueba_SK ():
     frecuencia = []
     D =[]
@@ -265,6 +269,7 @@ def prueba_bondad_ajuste():
          print("PRUEBA DE BONDAD DE AJUSTE CHI2: los numeros tienen una distribucion uniforme")
     else:
          print("PRUEBA DE BONDAD DE AJUSTE CHI2: los numeros NO tienen una distribucion uniforme")
+    grafico_barras(obs,esperado,intervalos)
 
 def grafica_dispersion():
     x = []
@@ -277,13 +282,46 @@ def grafica_dispersion():
     plt.legend()
     plt.show()
 
+def grafico_barras(o,e,intervalos):
+    #print("INTERVALOS CANT",intervalos)
+    obs=[]
+    esp=[]
+    interv =[]
+    for i in range(0,intervalos-1):
+        obs.append(o[i])
+        esp.append(e)
+        interv.append(i)
+    # posicion de cada barra en el eje de X
+    x = np.arange(len(interv))
+    width = 0.40
+    fig, ax = plt.subplots()
+    # Genera las barras para el conjunto observado y esperado
+    rects1 = ax.bar(x - width / 2, obs, width, label='observado')
+    rects2 = ax.bar(x + width / 2, esp, width, label='esperado')
+    ax.set_title('Observaciones y valor esperado para cada intervalo')
+    ax.legend()
+    plt.show()
+
+cantidad_numeros = 10000  #tamaño de la lista de numeros generados
 numeros=[]
 numeros_normalizados = []
 numeros_poker = []
 
-cantidad_numeros = 10000  #tamaño de la lista de numeros generados
-#generador_pmc(cantidad_numeros)
-#generador_GCL(cantidad_numeros)
+generador_pmc(cantidad_numeros)
+grafica_dispersion()
+
+numeros=[]
+numeros_normalizados = []
+numeros_poker = []
+
+generador_GCL(cantidad_numeros)
+grafica_dispersion()
+
+numeros=[]
+numeros_normalizados = []
+numeros_poker = []
+
 generador_python()
 grafica_dispersion()
+
 
