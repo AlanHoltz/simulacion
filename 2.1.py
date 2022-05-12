@@ -98,7 +98,7 @@ def normalizar ():
     prueba_poker(numeros_poker)
     prueba_de_rachas()
     prueba_SK()
-    #prueba_bondad_ajuste()
+    prueba_bondad_ajuste()
 
 def prueba_poker(numeros):
     c = 0
@@ -235,8 +235,9 @@ def prueba_de_rachas():
         print("PRUEBA DE RACHAS: Los numeros son aleatorios. ")
     else:
         print("PRUEBA DE RACHAS: No hay evidencia estadistica para apoyar la aleatoridad de los numeros. Los numeros no son aleatorios. ")
+    grafica_distribucion_normal(Z)
 
-    #GRAFICA DE DISTRIBUCION NORMAL
+def grafica_distribucion_normal (Z):
     fig, ax = plt.subplots()
     x = np.arange(-5,5,0.01)
     y = stats.norm.pdf(x)
@@ -248,8 +249,6 @@ def prueba_de_rachas():
     ax.legend()
     plt.plot(x,y)
     plt.show()
-
-
 def prueba_SK ():
     frecuencia = []
     D =[]
@@ -317,7 +316,7 @@ def grafico_barras(o,e,intervalos):
     ax.legend()
     plt.show()
 
-cantidad_numeros = 1000  #tamaño de la lista de numeros generados
+cantidad_numeros = 10000  #tamaño de la lista de numeros generados
 
 numeros=[]
 numeros_normalizados = []
