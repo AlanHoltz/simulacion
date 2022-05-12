@@ -9,6 +9,8 @@ import seaborn as sns
 import statistics
 import math
 from scipy import stats
+from scipy.stats import norm
+
 
 def generador_python():
     global numeros_poker
@@ -28,11 +30,12 @@ def generador_python():
         poker = columna[1:6]
         numeros_poker.append(poker)
         columna = []
+    print("------------------------------------------------------------")
+    print("Generador PYTHON:")
     prueba_poker(numeros_poker)
     prueba_de_rachas()
     prueba_SK()
-    prueba_bondad_ajuste()
-
+   # prueba_bondad_ajuste()
 
 def generador_GCL(cantidad_numeros):
         global numeros
@@ -44,7 +47,8 @@ def generador_GCL(cantidad_numeros):
         for i in range(1, cantidad_numeros):
             nro = (a*numeros[i-1] + c) % m
             numeros.append(nro)
-
+        print("------------------------------------------------------------")
+        print("Generador Congruencial Lineal:")
         normalizar()
 
 def generador_pmc(cantidad_numeros):
@@ -59,7 +63,10 @@ def generador_pmc(cantidad_numeros):
         sem2 = sem[2:6]
         seed =int(''.join(map(str, sem2)))
         numeros.append(seed)
+    print("------------------------------------------------------------")
+    print("Generador Parte Media del Cuadrado:")
     normalizar()
+
     #print("PMC:     ",numeros)
 
 def completa_ceros(sem):
@@ -92,7 +99,6 @@ def normalizar ():
     prueba_de_rachas()
     prueba_SK()
     prueba_bondad_ajuste()
-
 
 def prueba_poker(numeros):
     c = 0
@@ -201,9 +207,9 @@ def prueba_poker(numeros):
         x = ((esperada[i]-observada[i])**2)/esperada[i]
     chi_cuadrado = 12.5916
     if x <= chi_cuadrado:
-        print("PRUEBA DE POKER: los números generados son estadísticamente independientes.")
+        print("PRUEBA DE POKER: Los números generados son estadísticamente independientes.")
     else:
-        print("PRUEBA DE POKER: Se rechaza que los numeros son independientes. No son aleatorios")
+        print("PRUEBA DE POKER: Se rechaza que los numeros son independientes.")
 
 def prueba_de_rachas():
     rachas, n1, n2 = 0, 0, 0
@@ -226,11 +232,23 @@ def prueba_de_rachas():
     Z = (rachas - rachas_esp) / desv
 
     if (Z > -1.96 and Z < 1.96):  # Para un nivel de confianza del 95%
-        print("PRUEBA DE RACHAS: Los numeros son aleatorios ")
+        print("PRUEBA DE RACHAS: Los numeros son aleatorios. ")
     else:
-        print("PRUEBA DE RACHAS: Los numeros no son aleatorios ")
+        print("PRUEBA DE RACHAS: No hay evidencia estadistica para apoyar la aleatoridad de los numeros. Los numeros no son aleatorios. ")
+    grafica_distribucion_normal(Z)
 
-
+def grafica_distribucion_normal (Z):
+    fig, ax = plt.subplots()
+    x = np.arange(-5,5,0.01)
+    y = stats.norm.pdf(x)
+    plt.axvline(x=Z, ymin=0.0, ymax=0.90, label="Estadistico de prueba", color = 'r')
+    plt.title('Distribución Normal (0,1)')  # Título del gráfico
+    plt.ylabel('f(x)')  # Título del eje y
+    plt.xlabel('X')  # Título del eje x
+    plt.fill_between(x, y, 0, where=(x >= -1.96) & (x <= 1.96), color='g', label="Zona de NO rechazo")
+    ax.legend()
+    plt.plot(x,y)
+    plt.show()
 def prueba_SK ():
     frecuencia = []
     D =[]
@@ -244,9 +262,9 @@ def prueba_SK ():
     maxi = max(D) # obtiene el mayor de D
     num_tabla = 1.36/math.sqrt(cantidad_numeros) # con un nivel de significancia del 0.05
     if maxi < num_tabla:
-        print("PRUEBA DE SMIRNOV -KOLMOGOROV: No se puede rechazar que los numeros pseudoaleatorios son uniformes")
+        print("PRUEBA DE SMIRNOV -KOLMOGOROV:Los numeros tienen una distribucion uniforme.")
     else:
-        print("PRUEBA DE SMIRNOV -KOLMOGOROV: Se rechaza que los numeros pseudoaleatorios son uniformes")
+        print("PRUEBA DE SMIRNOV -KOLMOGOROV: Los numeros NO tienen una distribucion uniforme.")
 
 def prueba_bondad_ajuste():
     chi2 = 0
@@ -262,9 +280,10 @@ def prueba_bondad_ajuste():
     chi2_tabla = 140.1697 #para grados de libertad = 99
     #se debe ir modificando en base a la tabla. Para grados de libertad: intervalos-1 y el nivel de confiaza va a ser siempre 0.05
     if chi2 < chi2_tabla:
-         print("PRUEBA DE BONDAD DE AJUSTE CHI2: los numeros tienen una distribucion uniforme")
+         print("PRUEBA DE BONDAD DE AJUSTE CHI2: Los numeros tienen una distribucion uniforme.")
     else:
-         print("PRUEBA DE BONDAD DE AJUSTE CHI2: los numeros NO tienen una distribucion uniforme")
+         print("PRUEBA DE BONDAD DE AJUSTE CHI2: Los numeros NO tienen una distribucion uniforme.")
+    grafico_barras(obs,esperado,intervalos)
 
 def grafica_dispersion():
     x = []
@@ -277,13 +296,46 @@ def grafica_dispersion():
     plt.legend()
     plt.show()
 
+def grafico_barras(o,e,intervalos):
+    print("INTERVALOS CANT",intervalos)
+    obs=[]
+    esp=[]
+    interv =[]
+    for i in range(0,intervalos-1):
+        obs.append(o[i])
+        esp.append(e)
+        interv.append(i)
+    # posicion de cada barra en el eje de X
+    x = np.arange(len(interv))
+    width = 0.40
+    fig, ax = plt.subplots()
+    # Genera las barras para el conjunto observado y esperado
+    rects1 = ax.bar(x - width / 2, obs, width, label='observado')
+    rects2 = ax.bar(x + width / 2, esp, width, label='esperado')
+    ax.set_title('Observaciones y valor esperado para cada intervalo')
+    ax.legend()
+    plt.show()
+
+cantidad_numeros = 10000  #tamaño de la lista de numeros generados
+
 numeros=[]
 numeros_normalizados = []
 numeros_poker = []
+generador_GCL(cantidad_numeros)
+grafica_dispersion()
 
-cantidad_numeros = 10000  #tamaño de la lista de numeros generados
-#generador_pmc(cantidad_numeros)
-#generador_GCL(cantidad_numeros)
+
+numeros=[]
+numeros_normalizados = []
+numeros_poker = []
 generador_python()
 grafica_dispersion()
+
+
+numeros=[]
+numeros_normalizados = []
+numeros_poker = []
+generador_pmc(cantidad_numeros)
+grafica_dispersion()
+
 
