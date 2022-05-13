@@ -10,8 +10,8 @@ from tkinter import messagebox as mb
 from random import randint
 
 
-total_nros = 1000 #Cantidad de numeros a generar
-total_corridas = 15 
+total_nros = 1500 #Cantidad de numeros a generar
+total_corridas = 30
 
 
 #DISTRIBUCIONES
@@ -19,7 +19,6 @@ def distribucion_uniforme(a,b):
         return a + (b-a) * random()
 
 def distribucion_exponencial(ex): 
-
     return -ex*math.log(random())
 
 def distribucion_gamma(k,a): 
@@ -29,7 +28,7 @@ def distribucion_gamma(k,a):
 
     return -math.log(tr)/a
 
-def distribucion_normal(ex,stdx): 
+def distribucion_normal(ex,stdx):   
     sum = 0
 
     for i in range(0,12):
@@ -165,6 +164,7 @@ def grafica_promedio_absoluto(promedios_corridas):
     plt.xlabel('Número de corridas')
     plt.ylabel('Valor promedio de la corrida')
     plt.show()
+
 
 #PRUEBAS
 
@@ -329,9 +329,8 @@ def prueba_chi2_empirica(numeros):
     else: 
         return("PRUEBA CHI2: Reprobada \n")
 
-
 def prueba_corridas_media ():
-    media_esperada = 0.5
+    media_esperada = sum(numeros_generados)/total_nros
     Z = 1.96
     n1 = 0
     n2 = 0
@@ -352,7 +351,7 @@ def prueba_corridas_media ():
 
     N = n1 + n2
     if N <= 1:
-        estado = ('PRUEBA DE CORRIDAS ARRIBA/ABAJO DE LA MEDIA: Reprobada. \n')
+        estado = ('PRUEBA DE CORRIDAS ARRIBA/ABAJO DE LA MEDIA: Reprobada. Los numeros no son independientes. \n')
 
     else:
         media_test = (2 * n1 * n2 ) / (n1 + n2 ) +1
@@ -361,11 +360,11 @@ def prueba_corridas_media ():
             z_muestra = (b - media_test) / math.sqrt(varianza_test)
 
             if z_muestra < Z:
-                estado = ('PRUEBA DE CORRIDAS ARRIBA/ABAJO DE LA MEDIA: Aprobada.\n')
+                estado = ('PRUEBA DE CORRIDAS ARRIBA/ABAJO DE LA MEDIA: Aprobada. Los numeros son independientes.\n')
             else:
-                estado = ('PRUEBA DE CORRIDAS ARRIBA/ABAJO DE LA MEDIA: Reprobada.\n')
+                estado = ('PRUEBA DE CORRIDAS ARRIBA/ABAJO DE LA MEDIA: Reprobada. Los numeros no son independientes.\n')
         else:
-            estado = ('PRUEBA DE CORRIDAS ARRIBA/ABAJO DE LA MEDIA: Reprobada. \n')
+            estado = ('PRUEBA DE CORRIDAS ARRIBA/ABAJO DE LA MEDIA: Reprobada. Los numeros no son independientes.\n')
     
     return estado
 
@@ -382,69 +381,14 @@ def prueba_de_rachas():
             n1 += 1
         else:
             n2 += 1
-    rachas_esp = ((2 * n1 * n2) / (n1 + n2)) + 1  # Número de corridas esperadas
-    desv = math.sqrt((2 * n1 * n2 * (2 * n1 * n2 - n1 - n2)) / (
-                ((n1 + n2) ** 2) * (n1 + n2 - 1)))  # Desviación estándar del número de carreras
-
+    rachas_esp = ((2 * n1 * n2) / (n1 + n2)) + 1  
+    desv = math.sqrt((2 * n1 * n2 * (2 * n1 * n2 - n1 - n2)) / (((n1 + n2) ** 2) * (n1 + n2 - 1)))
     Z = (rachas - rachas_esp) / desv
 
     if (Z > -1.96 and Z < 1.96):  # Para un nivel de confianza del 95%
         return("PRUEBA DE RACHAS: Aprobada. Los numeros son aleatorios \n")
     else:
         return("PRUEBA DE RACHAS: Reprobada. Los numeros no son aleatorios \n")
-
-def prueba_series ():
-    tabla = [[0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 0]]
-    indice = [0, 0]
-
-    frecuencia_tabla = (total_nros - 1) / len(tabla) ** 2
-    x_esperado = 36.42
-    for i in range(total_nros-1):
-        pareja = [numeros_generados[i], numeros_generados[i+1]]
-        for j in range(len(pareja)):
-            if pareja[j] < 0.2:
-                indice[j] = 0
-            elif pareja[j] < 0.4:
-                indice[j] = 1
-            elif pareja[j] < 0.6:
-                indice[j] = 2
-            elif pareja[j] < 0.8:
-                indice[j] = 3
-            elif pareja[j] <= 1:
-                indice[j] = 4
-        tabla[indice[0]][indice[1]] += 1
-
-    aux_sum = 0
-
-    for i in range(len(tabla)):
-        for j in range(len(tabla)):
-            aux_sum += ((tabla[i][j] - frecuencia_tabla) ** 2)
-    X = ((len(tabla) ** 2) / (total_nros - 1)) * aux_sum
-
-    if X < x_esperado:
-        estado = ('PRUEBA DE SERIES: Aprobada \n')
-    else:
-        estado = ('PRUEBA DE SERIES: Reprobada \n')
-    return estado
-
-def prueba_SK ():
-    frecuencia = []
-    D =[]
-    ordenados = sorted(numeros_generados) 
-    for i in range (1, total_nros+1):
-        frecuencia.append(i/total_nros)
-    for i in range (total_nros):
-        D.append(abs(ordenados[i]-frecuencia[i]))
-    maxi = max(D)
-    num_tabla = 1.36/math.sqrt(total_nros) # con un nivel de significancia del 0.05
-    if maxi < num_tabla:
-        return("PRUEBA DE SMIRNOV-KOLMOGOROV: No se puede rechazar que los numeros pseudoaleatorios son uniformes \n")
-    else:
-        return("PRUEBA DE SMIRNOV-KOLMOGOROV: Se rechaza que los numeros pseudoaleatorios son uniformes \n")
 
 
 
@@ -519,7 +463,6 @@ def generador(dis, flag):
         return(promedio_corrida)
 
 
-
 #MAIN
 op=0
 while(op<1 or op>9):
@@ -529,12 +472,8 @@ while(op<1 or op>9):
     op = int(input("\n opción: "))
     if(op<1 or op>9): print("Ingrese un numero entre 1 y 9.\n")
 
-
 numeros_generados, distribucion, resultado_chi2 = generador(op, True) #True para calculos iniciales-False para promedios
-
 rachas = prueba_de_rachas()
-sk = prueba_SK()
-series = prueba_series()
 corridas_media = prueba_corridas_media()
 
 grafica_dispersion(numeros_generados)
@@ -543,9 +482,8 @@ grafica_densidad(numeros_generados)
 proms = grafica_promedios(op)
 grafica_promedio_absoluto(proms)
 
-mensaje = distribucion + resultado_chi2 + rachas + sk + series + corridas_media
+mensaje = distribucion + resultado_chi2 + rachas + corridas_media
 mb.showinfo(title="Resultado de pruebas", message=mensaje)
-
 
 
 
