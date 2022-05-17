@@ -137,8 +137,8 @@ def grafica_promedios(distrib):
     plt.figure('PROMEDIOS')
     plt.title('Evolución del promedio del conjunto de valores generados respecto a n')
     plt.suptitle('Numero de corridas: 30')
-    plt.ylabel('Valor promedio de la corrida')
-    plt.xlabel('Número de corridas')
+    plt.ylabel('Valor promedio')
+    plt.xlabel('Cantidad de números generados')
 
     for k in promedios:
         plt.plot(k, color = random_color())
@@ -161,8 +161,8 @@ def grafica_promedio_absoluto(promedios_corridas):
     plt.title('Evolución del promedio del promedio del conjunto de valores generados respecto a n')
     plt.suptitle('Numero de corridas: 30')
     plt.plot(promedio_abs)
-    plt.xlabel('Número de corridas')
-    plt.ylabel('Valor promedio de la corrida')
+    plt.xlabel('Cantidad de números generados')
+    plt.ylabel('Valor promedio')
     plt.show()
 
 
