@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 
 #PARÁMETROS
 tasa_servicio = 25 # personas/minuto. 
-tasa_arribo = tasa_servicio * 0.5 #personas/minuto . Variar 0.25, 0.5, 0.75, 1, 1.25
-cantidad_corridas = 10 #10
-total_clientes = 200  # fin de la simulacion 
+tasa_arribo = tasa_servicio * 0.25 #personas/minuto . Variar 0.25, 0.5, 0.75, 1, 1.25
+cantidad_corridas = 10 
+total_clientes = 5000  # fin de la simulacion 
 
 #Variables e inicialización
 cant_tipo_evento = 2  # tipos de eventos (arribos y llegadas)
@@ -94,66 +94,35 @@ def graficar(muestra, tit, ylbl):
     plt.xticks([x+0.15 for x in range(len(muestra))], [x for x in range(len(muestra))])
     plt.show()
 
-def grafico_probNegacion_probNclientes(probabilidad1, probabilidad2):
-    n_clientes_esperados, n_clientes_observados, probs2 = [], [], []
-    n_clientes_esperados.append(probabilidad2)
+def grafico_probNegacion_probNclientes(probabilidad1):
+    n_clientes_observados, probs2 = [], []
     n_clientes_observados.append(1 - probabilidad1[0])
-    for j in [0, 2, 5, 10, 50]: #probabilidad de denegacion de servicio para cola finita de tamaño 0, 2,5 ,10, 50
-        n_clientes_esperados.append(1 - sum((probabilidad2) ** i * (1 - probabilidad2) for i in range(j)))
+    for j in [0, 2, 5, 10, 50]: #probabilidad de denegacion de servicio para cola finita de tamaño 0, 2, 5 ,10, 50
         n_clientes_observados.append(1 - sum(probabilidad1[i] for i in range(j)))
 
-    print("Probabilidad de denegación de servicio observadas:", n_clientes_observados)
-    print("Probabilidad de denegacion de servicio esperadas:", n_clientes_esperados)
+    print("Probabilidad de denegación de servicio:", n_clientes_observados)
     for i in range(len(probabilidad1)):
         if probabilidad1[i] > 0:
             probs2.append(probabilidad1[i])
+    
     #grafico probabilidad de N clientes en cola
     plt.subplot(121)
-    plt.title("Probabilidades de N clientes en cola")
-    plt.xlabel('N clientes')
-    plt.ylabel("Prob N clientes")
-    plt.bar([x for x in range(len(probs2))], [(probabilidad2 ** i) * (1 - probabilidad2) for i in range(len(probs2))], label="Prob de N clientes esperada",
-            color="black", width=0.25)
-    plt.bar([x + 0.25 for x in range(len(probs2))], probs2, label="Prob de N clientes observada", color="red", width=0.25)
+    plt.title("Probabilidad de N clientes en cola")
+    plt.xlabel('Numero de clientes')
+    plt.ylabel("Probabilidad")
+    plt.bar([x + 0.25 for x in range(len(probs2))], probs2, color="orange", width=0.5)
     plt.xticks([x + 0.15 for x in range(len(probs2))], [x for x in range(len(probs2))])
     plt.legend(loc='upper right')
+
     #grafico probabilidad de denegacion
     plt.subplot(122)
-    plt.title("Probabilidades de denegación de servicio")
-    plt.xlabel('N clientes')
-    plt.ylabel('Prob de denegacion')
-    plt.bar([x for x in range(len(n_clientes_esperados))], n_clientes_esperados, label="Prob de denegación esperada", color="black", width=0.25)
-    plt.bar([x + 0.25 for x in range(len(n_clientes_esperados))], n_clientes_observados, label="Prob de denegacion observada", color="red", width=0.25)
-    plt.xticks([x + 0.15 for x in range(len(n_clientes_observados))], ['0', '2', '5', '10', '50'])
-    plt.legend(loc='upper right')
+    plt.title("Probabilidad de denegación de servicio")
+    plt.xlabel('Tamaño de la cola')
+    plt.ylabel('Probabilidad')
+    plt.bar([x + 0.25 for x in range(len(n_clientes_observados))], n_clientes_observados, color="orange")
+    plt.xticks([0, 1, 2, 3, 4], labels=['0', '2', '5', '10', '50'])
+    #plt.xscale({'0', '2', '5', '10', '50'})
     plt.show()
-
-
-#graficos posibles para usar 
-def grafica_histograma(muestra):
-    plt.figure('HISTOGRAMA')
-    plt.title('Histograma de frecuencias de los valores generados')
-    plt.xlabel('Valor generado')
-    plt.ylabel('Frecuencia absoluta')
-    plt.hist(muestra, color='green', bins=25, alpha=0.5, edgecolor='black', linewidth=0.5)
-    plt.show()
-
-def grafica_barras(muestra):
-    plt.figure('Bt')
-    plt.title('Ocupacion del servidor')
-    plt.xlabel('')
-    plt.ylabel('')
-    plt.bar(range(len(muestra)), muestra)
-    plt.yticks([0,1])
-    plt.show()
-
-
-def grafica_torta(muestra):
-    plt.figure('Servidor')
-    plt.title('Ocupacion del servidor')
-    plt.pie(x=[muestra.count(1),muestra.count(0)], labels=["OCUPADO", "LIBRE"], autopct='%1.2f%%')
-    plt.show()
-
 
 
 
@@ -209,7 +178,7 @@ print("Numero de clientes en cola:", round(np.mean(clientes_cola_corridas), 3))
 print("Tiempo promedio en el sistema:", round(np.mean(demora_sistema_corridas), 3))
 print("Tiempo promedio en cola:", round(np.mean(demora_cola_corridas), 3))
 print("Utilizacion del servidor: ","{:.2%}".format(np.mean(util_corridas)))
-print("\n")
+print("\n") 
 for j in range(len(probq_ncc)):
     if probq_ncc[j] > 0:
        print('Probabilidad de que haya {0} clientes en cola: {1}%'.format(j, round((probq_ncc[j]*100),2))) 
@@ -220,9 +189,7 @@ graficar(clientes_cola_corridas, 'Clientes promedio en cola', 'Q(t)')
 graficar(demora_sistema_corridas, 'Demora promedio en el sistema', 'Ds(n)')
 graficar(demora_cola_corridas, 'Demora promedio en cola', 'Dq(n)')
 graficar(util_corridas, 'Utilización del servidor', 'B(t)')
-#grafico_probNegacion_probNclientes(probq_ncc)
-
-#falta Probabilidad de denegación de servicio (cola finita de tamaño: 0, 2, 5, 10, 50).
+grafico_probNegacion_probNclientes(probq_ncc)
 
 
 
