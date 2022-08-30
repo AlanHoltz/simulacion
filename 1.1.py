@@ -14,12 +14,14 @@ corridas = []
 def random_color():
     return "#" +  "%06x" % randint(0, 0xFFFFFF)
 
+
+
 def grafica_promedios():
     plt.figure('PROMEDIOS')
     plt.title('Evolución del promedio del conjunto de valores obtenidos respecto a n')
     plt.suptitle('Numero de corridas: '+ str(NUMERO_CORRIDAS))
 
-    for k,corrida in enumerate(corridas):
+    for corrida in corridas:
         plt.plot(corrida["promedios"], color = random_color())
     
     prom_esp = NUMERO_RULETA / 2
@@ -29,6 +31,8 @@ def grafica_promedios():
     plt.ylim(10,26)
     plt.legend()
     plt.show()
+
+
 
 def grafica_promedio_gral():
     plt.figure('PROMEDIO GENERAL')
@@ -40,7 +44,7 @@ def grafica_promedio_gral():
     prom_gral = []
     for nro_tirada in range(NUMERO_TIRADAS):
         suma = 0
-        for k,corrida in enumerate(corridas):
+        for corrida in corridas:
             suma += corrida["promedios"][nro_tirada] #Acumulo la suma de los 30 promedios de cada tirada
         prom_gral.append(suma/NUMERO_CORRIDAS)
     plt.plot(prom_gral, label='Esperanza promedio' )
@@ -52,12 +56,13 @@ def grafica_promedio_gral():
     plt.show()
 
 
+
 def grafica_desvios():
     plt.figure('DESVIOS')
     plt.title('Evolución del desvío del conjunto de valores obtenidos respecto a n')
     plt.suptitle('Numero de corridas: '+ str(NUMERO_CORRIDAS))
 
-    for k,corrida in enumerate(corridas):
+    for corrida in corridas:
         plt.plot(corrida["desvios"], color = random_color())
 
     desv_esp = np.std(tiradas)
@@ -68,6 +73,8 @@ def grafica_desvios():
     plt.legend()
     plt.show()
 
+
+
 def grafica_desvio_gral():
     plt.figure('DESVIO GENERAL')
     plt.title('Evolución del promedio del conjunto de desvíos respecto a n')
@@ -75,7 +82,7 @@ def grafica_desvio_gral():
     desv_gral = []
     for nro_tirada in range(NUMERO_TIRADAS):
         suma = 0
-        for k,corrida in enumerate(corridas):
+        for corrida in corridas:
             suma += corrida["desvios"][nro_tirada] 
         desv_gral.append(suma/NUMERO_CORRIDAS)
     plt.plot(desv_gral, label='Desvío promedio' )
@@ -88,12 +95,14 @@ def grafica_desvio_gral():
     plt.legend()
     plt.show()
 
+
+
 def grafica_varianza():
     plt.figure('VARIANZA')
     plt.title('Evolución de la varianza del conjunto de valores obtenidos respecto a n')
     plt.suptitle('Numero de corridas: '+ str(NUMERO_CORRIDAS))
 
-    for k,corrida in enumerate(corridas):
+    for corrida in corridas:
         plt.plot(corrida["varianzas"], color = random_color())
 
     var_esp = np.var(tiradas)
@@ -104,6 +113,8 @@ def grafica_varianza():
     plt.legend()
     plt.show()
 
+
+
 def grafica_varianza_gral():
     plt.figure('VARIANZA GENERAL')
     plt.title('Evolución del promedio del conjunto de varianzas respecto a n')
@@ -111,7 +122,7 @@ def grafica_varianza_gral():
     var_gral = []
     for nro_tirada in range(NUMERO_TIRADAS):
         suma = 0
-        for k,corrida in enumerate(corridas):
+        for corrida in corridas:
             suma += corrida["varianzas"][nro_tirada] 
         var_gral.append(suma/NUMERO_CORRIDAS)
     plt.plot(var_gral, label='Varianza promedio' )
@@ -124,12 +135,14 @@ def grafica_varianza_gral():
     plt.legend()
     plt.show()    
 
+
+
 def grafica_frecuencia_relativa(num):
     plt.figure('FRECUENCIA RELATIVA')
     plt.title(f'Evolución de la Frecuencia Relativa para {num} respecto a n')
     plt.suptitle('Numero de corridas: '+ str(NUMERO_CORRIDAS))
     
-    for k,corrida in enumerate(corridas):
+    for corrida in corridas:
         plt.plot(corrida["frecuencias"][num], color = random_color())
     
     fr_esp = 1/(NUMERO_RULETA+1)
@@ -140,6 +153,8 @@ def grafica_frecuencia_relativa(num):
     plt.legend()
     plt.show()
 
+
+
 def grafica_frecuencia_relativa_gral(num):
     plt.figure('FRECUENCIA RELATIVA')
     plt.title(f'Evolución del promedio de la frecuencia Relativa para {num} respecto a n')
@@ -147,7 +162,7 @@ def grafica_frecuencia_relativa_gral(num):
     fr_gral = []
     for nro_tirada in range(NUMERO_TIRADAS):
         suma = 0
-        for k,corrida in enumerate(corridas):
+        for corrida in corridas:
             suma += corrida["frecuencias"][num][nro_tirada] 
         fr_gral.append(suma/NUMERO_CORRIDAS)
     plt.plot(fr_gral, label='Frecuencia relativa promedio' )
@@ -161,6 +176,7 @@ def grafica_frecuencia_relativa_gral(num):
     plt.show()
 
 
+
 def grafica_dispersion():
     plt.figure('DISPERSIÓN')
     plt.title('Dispersión de los valores de la primera corrida')
@@ -168,6 +184,8 @@ def grafica_dispersion():
     plt.ylabel('Número de la ruleta')
     plt.plot(corridas[0]["tiradas"], 'o', label='Dispersión de la primera corrida', color='orange')
     plt.show()
+
+
 
 def grafica_histograma():
     plt.figure('HISTOGRAMA')

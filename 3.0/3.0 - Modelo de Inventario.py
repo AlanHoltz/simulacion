@@ -216,7 +216,7 @@ Política\t\tCosto Promedio Total\t\tCosto Promedio de Orden\t\tCosto Promedio d
 
 #---------------------------------------------SE COMIENZA A USAR LA CLASE IMPLEMENTADA--------------------------------------------
 
-system("clear");
+system("cls");
 
 #SE DECLARAN LOS PARÁMETROS NECESARIOS
 PARAMS = {
@@ -265,7 +265,5 @@ inventoryI = Inventory(PARAMS);
 #INDEPENDIENTEMENTE EL VALOR DEL PARÁMETRO EL MÉTODO SIEMPRE DEVOLVERÁ UNA LISTA DE REPORTES QUE PUEDEN USARSE PARA LAS PRUEBAS
 
 reports = inventoryI.simulate(True) #SI PONEMOS EL PARÁMETRO EN FALSE VA A DESAPARECER LA INFORMACIÓN DE LA CONSOLA
-
-print(reports)
 
 #SE PUEDEN REALIZAR YA LAS PRUEBAS Y TESTEOS CON LO QUE DEVUELVE LA SIMULACIÓN (reports EN ESTE CASO)
